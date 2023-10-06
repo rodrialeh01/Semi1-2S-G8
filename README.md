@@ -1,5 +1,6 @@
 # 👥 SemiSocial
 
+<div align="center"><img src="./images/SemiSocial_Logo3.png" width="300"/></div>
 
 # Proyecto 2
 |Curso | Sección |
