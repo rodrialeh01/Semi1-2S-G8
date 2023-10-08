@@ -1,15 +1,18 @@
 import multer from "multer";
 import { User } from "../db/userModel.js";
-import { cognitoConfig } from "../config/credentials.js";
+import { cognitoConfig, rekognitionConfig } from "../config/credentials.js";
 import { CognitoUserPool, CognitoUserAttribute, AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js';
 import crypto from "crypto";
 import { saveObj } from '../config/objectHandler.js';
 import { tipoObjeto } from '../config/constants.js';
+import AWS from 'aws-sdk';
+import axios from 'axios';
 
 const storage = multer.memoryStorage();
 export const upload = multer({ storage: storage });
 
 const cognito = new CognitoUserPool(cognitoConfig);
+const rekognition = new AWS.Rekognition(rekognitionConfig);
 
 export const signUp = async (req, res) => {
 
@@ -77,38 +80,107 @@ export const signUp = async (req, res) => {
 
 export const signInPassword = async (req, res) => {
     
-    const { email, password } = req.body;
+    try{
+        const { email, password } = req.body;
 
-    const hash = crypto.createHash('sha256').update(password).digest('hex') + "s3m1s0c1a1**";
+        const hash = crypto.createHash('sha256').update(password).digest('hex') + "s3m1s0c1a1**";
 
-    const authenticationDetails = new AuthenticationDetails({
-        Username: email,
-        Password: hash
-    });
+        const authenticationDetails = new AuthenticationDetails({
+            Username: email,
+            Password: hash
+        });
 
-    const userData = {
-        Username: email,
-        Pool: cognito
-    };
+        const userData = {
+            Username: email,
+            Pool: cognito
+        };
 
-    const cognitoUser = new CognitoUser(userData);
+        const cognitoUser = new CognitoUser(userData);
 
-    cognitoUser.authenticateUser(authenticationDetails, {
-        onSuccess: async (result) => {
-            
-            const { jwtToken } = result.getIdToken();
-            const { email } = result.getIdToken().payload;
+        cognitoUser.authenticateUser(authenticationDetails, {
+            onSuccess: async (result) => {
+                
+                const { jwtToken } = result.getIdToken();
+                const { email } = result.getIdToken().payload;
 
-            const user = await User.findOne({ email }, {__v: 0, password: 0, friends: 0 });
+                const user = await User.findOne({ email }, {__v: 0, password: 0, friends: 0 });
 
-            res.response({ token: jwtToken, user }, "Usuario autenticado correctamente", 200);
-        },
-        onFailure: (err) => {
-            res.response(null, err.message, 403);
-        }
-    });
+                res.response({ token: jwtToken, user }, "Usuario autenticado correctamente", 200);
+            },
+            onFailure: (err) => {
+                res.response(null, err.message, 403);
+            }
+        });
+    } catch (error) {
+        console.log(error);
+        res.response(null, error.message, 400);
+    }
 }
 
 export const signInFaceID = async (req, res) => {
-    res.response("signInFaceID", "asdf", 400);
+
+    try{
+
+        const { email } = req.body;
+        const { buffer:target } = req.file;
+
+        const user = await User.findOne({ email }, { password: 1, pathImage: 1 });
+
+        if(!user){
+            return res.response(null, "User not found", 404);
+        }
+
+        const { data } = await axios.get(user.pathImage, { responseType: 'arraybuffer' });
+        const source = Buffer.from(data, 'binary');
+
+        const params = {
+            SourceImage: {
+                Bytes: source
+            },
+            TargetImage: {
+                Bytes: target
+            },
+            SimilarityThreshold: 60
+        };
+
+        const { FaceMatches } = await rekognition.compareFaces(params).promise();
+
+        console.log(FaceMatches[0].Similarity);
+
+        if (FaceMatches.length > 0 && FaceMatches[0].Similarity > 70) 
+        {
+            const authenticationDetails = new AuthenticationDetails({
+                Username: email,
+                Password: user.password
+            });
+
+            const userData = {
+                Username: email,
+                Pool: cognito
+            };
+
+            const cognitoUser = new CognitoUser(userData);
+
+            cognitoUser.authenticateUser(authenticationDetails, {
+                onSuccess: async (result) => {
+                    
+                    const { jwtToken } = result.getIdToken();
+                    const { email } = result.getIdToken().payload;
+
+                    const user = await User.findOne({ email }, {__v: 0, password: 0, friends: 0 });
+
+                    res.response({ token: jwtToken, user }, "Usuario autenticado correctamente", 200);
+                },
+                onFailure: (err) => {
+                    res.response(null, err.message, 403);
+                }
+            });
+        } else {
+            res.response(null, "Face not found", 404);
+        }
+
+    } catch (error) {
+        console.log(error);
+        res.response(null, error.message, 400);
+    }
 }
