@@ -7,13 +7,14 @@ function App() {
 
   return (
     <>
-      <div>
+      <div className="flex">
         {/* <Home />*/}
         <SideBar />
         {/*<Registro />*/}
         {/*<Login />*/}
         {/*<Password />*/}
         {/*<FaceId />*/}
+        <Home />
       </div>
     </>
   );

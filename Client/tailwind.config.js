@@ -16,6 +16,8 @@ export default {
       blackTest: '#121212'
     }}
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar-hide'),
+  ],
 }
 

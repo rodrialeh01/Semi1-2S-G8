@@ -3,13 +3,13 @@ import SmileOutlined from "@ant-design/icons/SmileOutlined";
 
 function SideBar() {
   return (
-    <div className="flex">
-      <div className="bg-black text-gray-500 p-5 text-xs lg:text-sm w-[16rem] scrollbar-hide h-screen sm:max-w-[12rem] lg:max-w-[16rem] hidden md:inline-flex fixed border-r border-celeste">
+    <div className="flex fixed">
+      <div className=" bg-black text-gray-500 p-5 text-xs lg:text-sm w-[16rem] scrollbar-hide h-screen sm:max-w-[12rem] lg:max-w-[16rem] hidden md:inline-flex fixed border-r border-celeste">
         <div className="space-y-4">
           <div className="">
             <img
               className="h-32 w-32 rounded-full mx-auto"
-              src='http://imgfz.com/i/0Oj6e3w.png'
+              src="http://imgfz.com/i/0Oj6e3w.png"
             ></img>
           </div>
 
@@ -17,11 +17,11 @@ function SideBar() {
 
           <div className="text-center">
             <button className="items-center space-x-2 hover:text-white">
-            <img
-              className="h-32 w-32 rounded-full mx-auto"
-              src="http://imgfz.com/i/idQw9sx.png"
-              alt=""
-            />
+              <img
+                className="h-32 w-32 rounded-full mx-auto"
+                src="http://imgfz.com/i/idQw9sx.png"
+                alt=""
+              />
 
               <h1 className="mt-2 text-xl font-semibold">Nombre Apellido</h1>
               <p className="mt-2">correo@correo.com</p>
@@ -86,6 +86,25 @@ function SideBar() {
           <button className="flex items-center space-x-2 hover:text-celeste_claro">
             <SmileOutlined style={{ fontSize: "20px" }} />
             <p>ChatBot</p>
+          </button>
+
+          <button className="flex items-center space-x-2 hover:text-celeste_claro">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              />
+            </svg>
+
+            <p>Buscar Amigos</p>
           </button>
         </div>
       </div>
