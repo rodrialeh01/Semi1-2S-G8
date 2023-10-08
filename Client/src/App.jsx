@@ -3,6 +3,7 @@ import "./App.css";
 import SideBar from "./components/Home/SideBar";
 import Home from "./components/Home/home";
 import Solicitudes from "./components/Friends/Solicitudes"; 
+import EditProfile from "./components/Profile/EditProfile";
 function App() {
   const [count, setCount] = useState(0);
 
@@ -10,7 +11,7 @@ function App() {
     <>
       <div>
         <SideBar />
-        
+        {/*< EditProfile />*/}
         {/*<Solicitudes />*/}
         {/*<Home />*/}
         {/*<Registro />*/}
