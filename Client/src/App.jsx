@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./App.css";
-import Home from "./components/Home/home";
 import SideBar from "./components/Home/SideBar";
 
 function App() {
@@ -11,6 +10,10 @@ function App() {
       <div>
         {/* <Home />*/}
         <SideBar />
+        {/*<Registro />*/}
+        {/*<Login />*/}
+        {/*<Password />*/}
+        {/*<FaceId />*/}
       </div>
     </>
   );
