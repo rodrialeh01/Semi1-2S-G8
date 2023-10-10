@@ -9,7 +9,9 @@ const userSchema = new Schema({
     password: String,
     pathImage: String,
     idImage: String,
-    friends: Array
+    friends: Array,
+    requests: Array,
+    friendRequests: Array
 });
 
 // userSchema.methods.encryptPassword = async (password) => {

@@ -1,4 +1,3 @@
-import multer from "multer";
 import { User } from "../db/userModel.js";
 import { cognitoConfig, rekognitionConfig } from "../config/credentials.js";
 import { CognitoUserPool, CognitoUserAttribute, AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js';
@@ -7,9 +6,6 @@ import { saveObj } from '../config/objectHandler.js';
 import { tipoObjeto } from '../config/constants.js';
 import AWS from 'aws-sdk';
 import axios from 'axios';
-
-const storage = multer.memoryStorage();
-export const upload = multer({ storage: storage });
 
 const cognito = new CognitoUserPool(cognitoConfig);
 const rekognition = new AWS.Rekognition(rekognitionConfig);

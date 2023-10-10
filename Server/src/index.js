@@ -5,7 +5,8 @@ import { API_PORT } from "./config/credentials.js";
 import { connect } from "./db/dbConnection.js";
 import testHandler from "./routes/test.routes.js";
 import authHandler from "./routes/auth.routes.js";
-import homeHandler from "./routes/home.routes.js";
+import publicacionHandler from "./routes/publication.routes.js";
+import userHandler from "./routes/user.routes.js";
 import responseMiddleware from "./middlewares/response.js";
 import error404Handler from "./routes/404.routes.js";
 
@@ -21,7 +22,8 @@ connect();
 
 app.use(testHandler);
 app.use(authHandler);
-app.use(homeHandler);
+app.use(userHandler);
+app.use(publicacionHandler);
 app.use(error404Handler);
 
 app.listen(API_PORT);

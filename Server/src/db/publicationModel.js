@@ -1,4 +1,4 @@
-import { Schema, model, mongoose } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 
 const publicationSchema = new Schema(
     {
@@ -6,7 +6,7 @@ const publicationSchema = new Schema(
         idImage: String,
         description: String,
         idUser: mongoose.Types.ObjectId,
-        comments: Array
+        labels: Array
     },
     {
         timestamps: true
