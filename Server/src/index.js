@@ -7,6 +7,7 @@ import testHandler from "./routes/test.routes.js";
 import authHandler from "./routes/auth.routes.js";
 import publicacionHandler from "./routes/publication.routes.js";
 import userHandler from "./routes/user.routes.js";
+import commentHandler from "./routes/comment.routes.js";
 import responseMiddleware from "./middlewares/response.js";
 import error404Handler from "./routes/404.routes.js";
 
@@ -24,6 +25,7 @@ app.use(testHandler);
 app.use(authHandler);
 app.use(userHandler);
 app.use(publicacionHandler);
+app.use(commentHandler);
 app.use(error404Handler);
 
 app.listen(API_PORT);
