@@ -14,3 +14,4 @@
 | [`201901772`](https://github.com/DanielDubonDR) | Daniel Reginaldo Dubón Rodríguez |
 | [`202004745`](https://github.com/Allenrovas) | Allen Giankarlo Román Vásquez |
 | [`202010918`](https://github.com/AndreaCabrera01) | Andrea María Cabrera Rosito |
+| [`201901121`](https://github.com/carlos11401) | Carlos Javier Castro Gonzalez |
