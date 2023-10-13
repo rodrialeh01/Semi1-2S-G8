@@ -1,20 +1,17 @@
 import { useState } from "react";
 import "./App.css";
-import SideBar from "./components/Home/SideBar";
-import Home from "./components/Home/home";
-import Solicitudes from "./components/Friends/Solicitudes"; 
-import EditProfile from "./components/Profile/EditProfile";
+import Registro from './pages/registro/registro';
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <>
       <div>
-        <SideBar />
+        {/*<SideBar />*/}
         {/*< EditProfile />*/}
         {/*<Solicitudes />*/}
         {/*<Home />*/}
-        {/*<Registro />*/}
+        <Registro />
         {/*<Login />*/}
         {/*<Password />*/}
         {/*<FaceId />*/}
