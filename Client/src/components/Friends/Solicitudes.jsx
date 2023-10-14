@@ -4,10 +4,65 @@ import {
   UserAddOutlined,
   UserDeleteOutlined,
 } from "@ant-design/icons";
+import Service from "../../Service/Service";
+import { ToastContainer, toast } from 'react-toastify';
 
 function Solicitudes() {
+  const [solicitudesPendientes, setSolicitudesPendientes] = useState([]);
+  const [response, setResponse] = useState("");
+  useEffect(() => {
+    const getSolicitudesPendientes = async () => {
+      try {
+        const response = await Service.getUsers();
+        if (response.data.message === "ok") {
+          let solicitudes = [];
+          response.data.data.forEach((element) => {
+            if (element.isPendigResponseRequest) {
+              console.log(element);
+              solicitudes.push(element);
+            }
+
+            setSolicitudesPendientes(solicitudes);
+          });
+          //console.log(response.data.data);
+        }
+        setResponse("")
+        //setSolicitudesPendientes(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getSolicitudesPendientes();
+  }, [response]);
+
+  const acceptFriendRequest = async (e, id) => {
+    try {
+      e.preventDefault();
+      console.log(id);
+      const response = await Service.acceptRequest(id);
+      console.log(response)
+      if (response.data.message === "Request accepted") {
+        toast.success('Solicitud aceptada', {
+          position: "top-right",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        setResponse("Friend")
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   return (
     <div className="h-screen max-h-screen w-screen bg-gradient-to-tr from-darkBlue to-azul flex flex-col scrollbar-hide">
+      <ToastContainer />
       <div className="ml-[16rem] flex-1 ">
         <div className="flex cols-2 gap-4">
           <div className="flex flex-col w-full h-screen">
@@ -19,11 +74,13 @@ function Solicitudes() {
 
             <div className="overflow-y-auto scrollbar-hide max-h-[calc(100vh-6rem)] flex flex-wrap justify-start h-screen p-8">
               {/* SOLICITUDES */}
-
+              {
+                solicitudesPendientes.map((solicitud) => 
+              
               <div className="w-1/3 max-w-xs bg-white shadow-lg rounded-lg overflow-hidden px-1 py-1 h-96 mx-8 my-8">
                 <div className="flex items-center justify-center">
                   <img
-                    src=""
+                    src={solicitud.pathImage}
                     alt="Imagen de Perfil"
                     className="w-48 h-48 rounded-lg"
                   />
@@ -32,14 +89,16 @@ function Solicitudes() {
                 <div className="flex items-center justify-center">
                   <div className="p-4">
                     <h1 className="text-2xl font-semibold text-gray-800">
-                      Soy Panchito
+                      {solicitud.name + " " + solicitud.lastName}
                     </h1>
-                    <p className="text-gray-600">correo@correo.com</p>
+                    <p className="text-gray-600">{solicitud.email}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-center">
-                  <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mx-1">
+                  <button 
+                  onClick={(e) => acceptFriendRequest(e, solicitud._id)}
+                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mx-1">
                     Agregar
                     <UserAddOutlined />
                   </button>
@@ -50,10 +109,15 @@ function Solicitudes() {
                   </button>
                 </div>
               </div>
+              
+              )}
               {/* SOLICITUDES */}
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        <ToastContainer />
       </div>
     </div>
   );
