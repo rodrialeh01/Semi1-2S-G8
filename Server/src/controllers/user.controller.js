@@ -75,3 +75,16 @@ export const acceptRequest = async (req, res) => {
         res.response(null, error.message, 400);
     }
 }
+
+export const getUser = async (req, res) => {
+    try{
+        const { id } = req.params;
+
+        const dataUser = await User.findOne({ _id:id }, { __v: 0, password: 0, idImage: 0 });
+
+        res.response(dataUser);
+
+    } catch (error) {
+        res.response(null, error.message, 400);
+    }
+};
