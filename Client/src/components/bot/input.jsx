@@ -1,5 +1,5 @@
 import React from 'react'
-import './input.css'
+import './style.css'
 import { IconContext } from 'react-icons/lib'
 import { IoIosSend } from 'react-icons/io'
 
@@ -12,16 +12,16 @@ export default function Input({ setNewMessage }) {
   }
 
   return (
-    <div className='flex container'>
-      <div className='input'>
+    <div className='inp-container flex items-center justify-center'>
+      <div className='inp-div-high flex items-center justify-evenly rounded-full bg-celeste '>
         <input
           type="text"
           placeholder="Type something..."
-          className="input2 text-white placeholder-white"
+          className="inp text-white placeholder-white rounded-none outline-none bg-transparent"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
-        <div className="send" onClick={handle_send}>
+        <div className="flex items-center gap-10 cursor-pointer" onClick={handle_send}>
           <IconContext.Provider value={{ color: '#F4FFE9', size: '30px' }}>
             <IoIosSend />
           </IconContext.Provider>

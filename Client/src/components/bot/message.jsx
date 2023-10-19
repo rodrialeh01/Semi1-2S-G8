@@ -1,5 +1,4 @@
 import React from 'react'
-import './message.css'
 import { IconContext } from 'react-icons/lib';
 import { FaRobot } from 'react-icons/fa';
 import { useEffect, useRef } from 'react';

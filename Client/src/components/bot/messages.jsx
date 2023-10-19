@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import './messages.css'
+import './style.css'
 import Message from './message'
 
 export default function Messages({newMessage}) {
@@ -87,7 +87,7 @@ export default function Messages({newMessage}) {
   }, [newMessage])
 
   return (
-    <div className="flex flex-col overflow-y-auto  scrollbar-hide  h-3/4  justify-start h-screen gap-y-2 p-2">
+    <div className="msgs-high flex flex-col overflow-y-auto scrollbar-hide justify-start gap-y-2 p-2">
       {messages.map((message) => (
         <Message 
         key={message.id} 
