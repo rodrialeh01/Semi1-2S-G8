@@ -10,6 +10,7 @@ import userHandler from "./routes/user.routes.js";
 import commentHandler from "./routes/comment.routes.js";
 import responseMiddleware from "./middlewares/response.js";
 import error404Handler from "./routes/404.routes.js";
+import translateHandler from "./routes/translate.routes.js";
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(userHandler);
 app.use(publicacionHandler);
 app.use(commentHandler);
 app.use(error404Handler);
+app.use(translateHandler);
 
 app.listen(API_PORT);
 console.log(`Server on port ${API_PORT}`);
