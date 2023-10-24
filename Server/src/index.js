@@ -27,8 +27,8 @@ app.use(authHandler);
 app.use(userHandler);
 app.use(publicacionHandler);
 app.use(commentHandler);
-app.use(error404Handler);
 app.use(translateHandler);
+app.use(error404Handler);
 
 app.listen(API_PORT);
 console.log(`Server on port ${API_PORT}`);

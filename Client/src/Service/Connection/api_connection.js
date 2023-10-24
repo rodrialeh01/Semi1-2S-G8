@@ -7,7 +7,7 @@ const instance = axios.create({
 
 //temporal:
 
-const TOKEN = "eyJraWQiOiJCQitoOUs0Mjg3SmJSN05vSUMwMU53RkhVNmVXYnlpVjBmcUNQYm5iZE40PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI5YzRjZjdhOC04OWUyLTQ1MGYtOWM4Zi0xZmFkNDEwM2ExOGQiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfbEJzNXFMNEZjIiwiY29nbml0bzp1c2VybmFtZSI6IjljNGNmN2E4LTg5ZTItNDUwZi05YzhmLTFmYWQ0MTAzYTE4ZCIsIm9yaWdpbl9qdGkiOiI2ZmZlOWFjNi1mMzFiLTQ4YTYtYmMzOC1jYzljZTkxNmQ0NTYiLCJhdWQiOiIyOWVoNzRyOGZlazNqOXNnMmFkdXN1ZXRqaSIsImV2ZW50X2lkIjoiZmEwYjJhZTktMWIwNy00MTI5LTgyOGEtNWNhZTQ0ZjRjYjMwIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE2OTcyNjUzNTksIm5hbWUiOiJBZG1pbiBBZG1pbiIsImN1c3RvbTpkcGkiOiIxMjMxMjMxMjMxMjMxIiwiZXhwIjoxNjk3MjY4OTU5LCJpYXQiOjE2OTcyNjUzNTksImp0aSI6IjBmZDk3ZGU4LTMwM2EtNDZkNC1hYzI0LTM1MTk4YmY1ZDUyOSIsImVtYWlsIjoieGV4YXZlcDU1NUBpYnRyYWRlcy5jb20ifQ.U2S4OQssC5goWInBU_WI3FbChtAI91AaJwzYHFiMMfzQ12DmOe27GfhAtF0qtWhBSCN6bTKjrvtfk5acnghzXbj2Ytn_Gb4kT-ptMSJT6UwOELfXyjidAGtSlJlHtsI6Y9_oW2bShV_73W5qLVg1Ixw9z3racVbSz8Jr4WP9wVp9KLedDUn-3y8wxrw5fyhwg8olqeFqSnOsO2Yz_LcRTAyyddFjuemgx1_aDSuRiZGBnH9JunOEgpD_GM5X610VyM5vQiPp_zw1VmnSH-AtmXNOx7D3xTWtVruvFJOBSahumzP9JRA1lQ8mDzQ-dX1dCrKj9EIJx_FFDSAxuZ0sKQ"; //PONER ACÁ EL TOKEN DE LOGIN
+const TOKEN = "eyJraWQiOiJCQitoOUs0Mjg3SmJSN05vSUMwMU53RkhVNmVXYnlpVjBmcUNQYm5iZE40PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI5YzRjZjdhOC04OWUyLTQ1MGYtOWM4Zi0xZmFkNDEwM2ExOGQiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfbEJzNXFMNEZjIiwiY29nbml0bzp1c2VybmFtZSI6IjljNGNmN2E4LTg5ZTItNDUwZi05YzhmLTFmYWQ0MTAzYTE4ZCIsIm9yaWdpbl9qdGkiOiIwNzdhZGVjMi01M2I5LTQxOGMtYTNiOC1iYmM4MDBjOWRlYmQiLCJhdWQiOiIyOWVoNzRyOGZlazNqOXNnMmFkdXN1ZXRqaSIsImV2ZW50X2lkIjoiZmExMzI4N2QtNjlhNS00ZjBmLThlOWQtM2M3ODYwNzA4ZWIzIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE2OTgxMzM0ODQsIm5hbWUiOiJBZG1pbiBBZG1pbiIsImN1c3RvbTpkcGkiOiIxMjMxMjMxMjMxMjMxIiwiZXhwIjoxNjk4MTM3MDg0LCJpYXQiOjE2OTgxMzM0ODQsImp0aSI6ImE4NzA0MmIzLTEzZjAtNGMyNy1iYmQ2LTgxZGRlMmM0MDRhYyIsImVtYWlsIjoieGV4YXZlcDU1NUBpYnRyYWRlcy5jb20ifQ.IENTojeo-9nxO7WMQvJ4M0CYoUomcnp75k4mlYcOnBaR43j8Sxy4nA0PEF42NSWKQVEsV-yGHEkmHo4XDpQG4XhbIpo5GtVwsEV83LrCy29LEE2qcZmtrTfLCfiEm_L-3-Cg4KI7bv_mccJl3XD9X8efP1ieXQ7iSKaH5v4lOI9UFryMuQ19c24koPEsCix7Uxvy24BrgadnUXtghhcczC4zEVCpXcEZTOR4GcUd5lJ1q5CRz6bUdGPWTDCeRIBLmlPGV_BZdF1MXh-RyH3CyNQly3zoEg6IzeGxxkbZMnUbgkTq_NxMupN1QgRAcedtNwUsg3cmxowfUNBOQV1d5A"; //PONER ACÁ EL TOKEN DE LOGIN
 
 
 
@@ -82,6 +82,16 @@ export const acceptRequest = async (id) => {
     const response = await instance.post(`/accept/request/friend/${id}`, null, {
         headers: {
             'Authorization': `Bearer ${TOKEN}`,
+        }
+    });
+    return response;
+}
+
+export const translate = async (data) => {
+    const response = await instance.post('/translate', data,{
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${TOKEN}`
         }
     });
     return response;

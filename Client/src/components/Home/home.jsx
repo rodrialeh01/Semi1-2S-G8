@@ -6,10 +6,10 @@ function Home() {
   const [publicaciones, setPublicaciones] = useState([]);
 
   const options = [
-    { value: "esp", label: "Español" },
+    { value: "es", label: "Español" },
     { value: "fr", label: "Francés" },
-    { value: "eng", label: "Inglés" },
-    { value: "ita", label: "Italiano" },
+    { value: "en", label: "Inglés" },
+    { value: "it", label: "Italiano" },
   ];
 
   let options2 = [{ value: "Todos", label: "Todos" }];
@@ -23,7 +23,7 @@ function Home() {
   const [comentarios, setComentarios] = useState([]);
   const [filteredPublications, setFilteredPublications] = useState([]);
   const [idPublicacion, setIdPublicacion] = useState("");
-  const [idioma, setIdioma] = useState("esp");
+  const [idioma, setIdioma] = useState("es");
   const [makeComment, setMakeComment] = useState(false);
   const [selectedOption, setSelectedOption] = useState([options[0]]);
   const [inputComentario, setInputComentario] = useState("");
@@ -116,6 +116,84 @@ function Home() {
     }
   };
 
+  const handleTranslate = async (idPublicacion, description) => {
+    console.log(idPublicacion);
+    console.log(description);
+    console.log(idioma);
+    let translated = "";
+
+      let data = {
+        "id" : idPublicacion,
+        "text": description,
+        "language": idioma
+      };
+
+      console.log(data);
+      try {
+        
+        const res = await Service.translate(data);
+        if (res.data.message === "ok") {
+          console.log("Traducción realizada correctamente");
+          console.log(res.data.data.textTranslate);
+          translated = res.data.data.textTranslate;
+        } else {
+          console.log("Error al realizar la traducción");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    
+
+      const updatedPublications = [...publicaciones];
+      const index = updatedPublications.findIndex(
+        (publicacion) => publicacion._id === idPublicacion
+      );
+      updatedPublications[index].description = translated;
+      setPublicaciones(updatedPublications);
+
+      console.log(publicaciones);
+    //console.log(descTranslated);
+  };
+
+  const handleTranslateComment = async (idComentario, comment) => {
+    console.log(idComentario);
+    console.log(comment);
+    console.log(idioma);
+    let translated = "";
+
+      let data = {
+        "id" : idComentario,
+        "text": comment,
+        "language": idioma
+      };
+
+      console.log(data);
+      try {
+        
+        const res = await Service.translate(data);
+        if (res.data.message === "ok") {
+          console.log("Traducción realizada correctamente");
+          console.log(res.data.data.textTranslate);
+          translated = res.data.data.textTranslate;
+        } else {
+          console.log("Error al realizar la traducción");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
+      const updatedComentarios = [...comentarios];
+      const index = updatedComentarios.findIndex(
+        (comentario) => comentario._id === idComentario
+      );
+      updatedComentarios[index].comment = translated;
+      setComentarios(updatedComentarios);
+
+      console.log(comentarios);
+    //console.log(descTranslated);
+  };
+
+
   const handleShowComentarios = async (idPublicacion) => {
     if (showComentarios) {
       setShowComentarios(false);
@@ -145,7 +223,7 @@ function Home() {
   };
 
   const eleccionIdioma = (idioma) => {
-    setIdioma(idioma.value);
+    setIdioma(idioma);
   };
 
   const handleAdd = async (event) => {
@@ -377,7 +455,9 @@ function Home() {
                               </svg>
                             </button>
 
-                            <button className="rounded-full p-2 bg-lila hover:bg-lila/50">
+                            <button className="rounded-full p-2 bg-lila hover:bg-lila/50"
+                            onClick={() => handleTranslate(publicacion._id, publicacion.description)}
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -402,7 +482,7 @@ function Home() {
                           ></img>
                         </div>
                         <div className="mt-4 text-sm text-gray-700 flex items-center justify-center">
-                          <p>{publicacion.description}</p>
+                          <p> {publicacion.description}</p>
                         </div>
                       </div>
                     );
@@ -492,7 +572,9 @@ function Home() {
                               </p>
                             </div>
                             <div className="flex-shrink-0 self-start">
-                              <button className="rounded-full p-2 bg-lila hover:bg-lila/50">
+                              <button className="rounded-full p-2 bg-lila hover:bg-lila/50"
+                              onClick={() => handleTranslateComment(comentario._id, comentario.comment)}
+                              >
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   fill="none"
