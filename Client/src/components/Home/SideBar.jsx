@@ -1,5 +1,6 @@
-import React from "react";
 import SmileOutlined from "@ant-design/icons/SmileOutlined";
+import React from "react";
+import { Outlet } from 'react-router-dom';
 
 function SideBar() {
   return (
@@ -109,6 +110,7 @@ function SideBar() {
         </div>
       </div>
       <div className="flex justify-between"></div>
+      <Outlet/>
     </div>
   );
 }
