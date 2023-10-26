@@ -65,7 +65,231 @@ const Chat = () => {
                     </form>
                 </div>
                 {/* CHAT */}
-                <div className='mt-24 max-h-[calc(100vh-10rem)] h-screen overflow-y-scroll overflow-x-hidden scrollbar-hide'>
+                <div className='mt-24 max-h-[calc(100vh-10rem)] h-screen overflow-y-scroll overflow-x-hidden scrollbar-hide pb-24'>
+                    <div className='flex gap-4'>
+                        <img 
+                            src="https://img.freepik.com/psd-gratis/ilustracion-3d-avatar-o-perfil-humano_23-2150671142.jpg?w=826&t=st=1698302186~exp=1698302786~hmac=ce7c94086209d45488726fb504536dec95eff764ec7f5e8006abbe16c9ea68cd" 
+                            alt="profile photo" 
+                            className='w-8 h-8 object-cover rounded-full'
+                        />
+                        <div >
+                            <h4 className='text-gray-300 font-semibold'>
+                                Nombre2{" "}
+                                <span className='text-gray-500 font-normal text-sm ml-8'>
+                                    00:00
+                                </span>
+                            </h4>
+                            <p className='bg-gray-700 py-2 px-4 rounded-tr-lg rounded-br-lg rounded-bl-lg text-gray-300'>Hi!, Are you still Web Designer</p>
+                        </div>
+                    </div>
+                    <div className='flex gap-4'>
+                        <img 
+                            src="https://img.freepik.com/psd-gratis/ilustracion-3d-avatar-o-perfil-humano_23-2150671142.jpg?w=826&t=st=1698302186~exp=1698302786~hmac=ce7c94086209d45488726fb504536dec95eff764ec7f5e8006abbe16c9ea68cd" 
+                            alt="profile photo" 
+                            className='w-8 h-8 object-cover rounded-full'
+                        />
+                        <div >
+                            <h4 className='text-gray-300 font-semibold'>
+                                Nombre2{" "}
+                                <span className='text-gray-500 font-normal text-sm ml-8'>
+                                    00:00
+                                </span>
+                            </h4>
+                            <p className='bg-gray-700 py-2 px-4 rounded-tr-lg rounded-br-lg rounded-bl-lg text-gray-300'>Hi!, Are you still Web Designer</p>
+                        </div>
+                    </div>
+                    <div className='flex gap-4'>
+                        <img 
+                            src="https://img.freepik.com/psd-gratis/ilustracion-3d-avatar-o-perfil-humano_23-2150671142.jpg?w=826&t=st=1698302186~exp=1698302786~hmac=ce7c94086209d45488726fb504536dec95eff764ec7f5e8006abbe16c9ea68cd" 
+                            alt="profile photo" 
+                            className='w-8 h-8 object-cover rounded-full'
+                        />
+                        <div >
+                            <h4 className='text-gray-300 font-semibold'>
+                                Nombre2{" "}
+                                <span className='text-gray-500 font-normal text-sm ml-8'>
+                                    00:00
+                                </span>
+                            </h4>
+                            <p className='bg-gray-700 py-2 px-4 rounded-tr-lg rounded-br-lg rounded-bl-lg text-gray-300'>Hi!, Are you still Web Designer</p>
+                        </div>
+                    </div>
+                    <div className='flex gap-4'>
+                        <img 
+                            src="https://img.freepik.com/psd-gratis/ilustracion-3d-avatar-o-perfil-humano_23-2150671142.jpg?w=826&t=st=1698302186~exp=1698302786~hmac=ce7c94086209d45488726fb504536dec95eff764ec7f5e8006abbe16c9ea68cd" 
+                            alt="profile photo" 
+                            className='w-8 h-8 object-cover rounded-full'
+                        />
+                        <div >
+                            <h4 className='text-gray-300 font-semibold'>
+                                Nombre2{" "}
+                                <span className='text-gray-500 font-normal text-sm ml-8'>
+                                    00:00
+                                </span>
+                            </h4>
+                            <p className='bg-gray-700 py-2 px-4 rounded-tr-lg rounded-br-lg rounded-bl-lg text-gray-300'>Hi!, Are you still Web Designer</p>
+                        </div>
+                    </div>
+                    <div className='flex gap-4'>
+                        <img 
+                            src="https://img.freepik.com/psd-gratis/ilustracion-3d-avatar-o-perfil-humano_23-2150671142.jpg?w=826&t=st=1698302186~exp=1698302786~hmac=ce7c94086209d45488726fb504536dec95eff764ec7f5e8006abbe16c9ea68cd" 
+                            alt="profile photo" 
+                            className='w-8 h-8 object-cover rounded-full'
+                        />
+                        <div >
+                            <h4 className='text-gray-300 font-semibold'>
+                                Nombre2{" "}
+                                <span className='text-gray-500 font-normal text-sm ml-8'>
+                                    00:00
+                                </span>
+                            </h4>
+                            <p className='bg-gray-700 py-2 px-4 rounded-tr-lg rounded-br-lg rounded-bl-lg text-gray-300'>Hi!, Are you still Web Designer</p>
+                        </div>
+                    </div>
+                    <div className='flex gap-4'>
+                        <img 
+                            src="https://img.freepik.com/psd-gratis/ilustracion-3d-avatar-o-perfil-humano_23-2150671142.jpg?w=826&t=st=1698302186~exp=1698302786~hmac=ce7c94086209d45488726fb504536dec95eff764ec7f5e8006abbe16c9ea68cd" 
+                            alt="profile photo" 
+                            className='w-8 h-8 object-cover rounded-full'
+                        />
+                        <div >
+                            <h4 className='text-gray-300 font-semibold'>
+                                Nombre2{" "}
+                                <span className='text-gray-500 font-normal text-sm ml-8'>
+                                    00:00
+                                </span>
+                            </h4>
+                            <p className='bg-gray-700 py-2 px-4 rounded-tr-lg rounded-br-lg rounded-bl-lg text-gray-300'>Hi!, Are you still Web Designer</p>
+                        </div>
+                    </div>
+                    <div className='flex gap-4'>
+                        <img 
+                            src="https://img.freepik.com/psd-gratis/ilustracion-3d-avatar-o-perfil-humano_23-2150671142.jpg?w=826&t=st=1698302186~exp=1698302786~hmac=ce7c94086209d45488726fb504536dec95eff764ec7f5e8006abbe16c9ea68cd" 
+                            alt="profile photo" 
+                            className='w-8 h-8 object-cover rounded-full'
+                        />
+                        <div >
+                            <h4 className='text-gray-300 font-semibold'>
+                                Nombre2{" "}
+                                <span className='text-gray-500 font-normal text-sm ml-8'>
+                                    00:00
+                                </span>
+                            </h4>
+                            <p className='bg-gray-700 py-2 px-4 rounded-tr-lg rounded-br-lg rounded-bl-lg text-gray-300'>Hi!, Are you still Web Designer</p>
+                        </div>
+                    </div>
+                    <div className='flex gap-4'>
+                        <img 
+                            src="https://img.freepik.com/psd-gratis/ilustracion-3d-avatar-o-perfil-humano_23-2150671142.jpg?w=826&t=st=1698302186~exp=1698302786~hmac=ce7c94086209d45488726fb504536dec95eff764ec7f5e8006abbe16c9ea68cd" 
+                            alt="profile photo" 
+                            className='w-8 h-8 object-cover rounded-full'
+                        />
+                        <div >
+                            <h4 className='text-gray-300 font-semibold'>
+                                Nombre2{" "}
+                                <span className='text-gray-500 font-normal text-sm ml-8'>
+                                    00:00
+                                </span>
+                            </h4>
+                            <p className='bg-gray-700 py-2 px-4 rounded-tr-lg rounded-br-lg rounded-bl-lg text-gray-300'>Hi!, Are you still Web Designer</p>
+                        </div>
+                    </div>
+                    <div className='flex gap-4'>
+                        <img 
+                            src="https://img.freepik.com/psd-gratis/ilustracion-3d-avatar-o-perfil-humano_23-2150671142.jpg?w=826&t=st=1698302186~exp=1698302786~hmac=ce7c94086209d45488726fb504536dec95eff764ec7f5e8006abbe16c9ea68cd" 
+                            alt="profile photo" 
+                            className='w-8 h-8 object-cover rounded-full'
+                        />
+                        <div >
+                            <h4 className='text-gray-300 font-semibold'>
+                                Nombre2{" "}
+                                <span className='text-gray-500 font-normal text-sm ml-8'>
+                                    00:00
+                                </span>
+                            </h4>
+                            <p className='bg-gray-700 py-2 px-4 rounded-tr-lg rounded-br-lg rounded-bl-lg text-gray-300'>Hi!, Are you still Web Designer</p>
+                        </div>
+                    </div>
+                    <div className='flex gap-4'>
+                        <img 
+                            src="https://img.freepik.com/psd-gratis/ilustracion-3d-avatar-o-perfil-humano_23-2150671142.jpg?w=826&t=st=1698302186~exp=1698302786~hmac=ce7c94086209d45488726fb504536dec95eff764ec7f5e8006abbe16c9ea68cd" 
+                            alt="profile photo" 
+                            className='w-8 h-8 object-cover rounded-full'
+                        />
+                        <div >
+                            <h4 className='text-gray-300 font-semibold'>
+                                Nombre2{" "}
+                                <span className='text-gray-500 font-normal text-sm ml-8'>
+                                    00:00
+                                </span>
+                            </h4>
+                            <p className='bg-gray-700 py-2 px-4 rounded-tr-lg rounded-br-lg rounded-bl-lg text-gray-300'>Hi!, Are you still Web Designer</p>
+                        </div>
+                    </div>
+                    <div className='flex gap-4'>
+                        <img 
+                            src="https://img.freepik.com/psd-gratis/ilustracion-3d-avatar-o-perfil-humano_23-2150671142.jpg?w=826&t=st=1698302186~exp=1698302786~hmac=ce7c94086209d45488726fb504536dec95eff764ec7f5e8006abbe16c9ea68cd" 
+                            alt="profile photo" 
+                            className='w-8 h-8 object-cover rounded-full'
+                        />
+                        <div >
+                            <h4 className='text-gray-300 font-semibold'>
+                                Nombre2{" "}
+                                <span className='text-gray-500 font-normal text-sm ml-8'>
+                                    00:00
+                                </span>
+                            </h4>
+                            <p className='bg-gray-700 py-2 px-4 rounded-tr-lg rounded-br-lg rounded-bl-lg text-gray-300'>Hi!, Are you still Web Designer</p>
+                        </div>
+                    </div>
+                    <div className='flex gap-4'>
+                        <img 
+                            src="https://img.freepik.com/psd-gratis/ilustracion-3d-avatar-o-perfil-humano_23-2150671142.jpg?w=826&t=st=1698302186~exp=1698302786~hmac=ce7c94086209d45488726fb504536dec95eff764ec7f5e8006abbe16c9ea68cd" 
+                            alt="profile photo" 
+                            className='w-8 h-8 object-cover rounded-full'
+                        />
+                        <div >
+                            <h4 className='text-gray-300 font-semibold'>
+                                Nombre2{" "}
+                                <span className='text-gray-500 font-normal text-sm ml-8'>
+                                    00:00
+                                </span>
+                            </h4>
+                            <p className='bg-gray-700 py-2 px-4 rounded-tr-lg rounded-br-lg rounded-bl-lg text-gray-300'>Hi!, Are you still Web Designer</p>
+                        </div>
+                    </div>
+                    <div className='flex gap-4'>
+                        <img 
+                            src="https://img.freepik.com/psd-gratis/ilustracion-3d-avatar-o-perfil-humano_23-2150671142.jpg?w=826&t=st=1698302186~exp=1698302786~hmac=ce7c94086209d45488726fb504536dec95eff764ec7f5e8006abbe16c9ea68cd" 
+                            alt="profile photo" 
+                            className='w-8 h-8 object-cover rounded-full'
+                        />
+                        <div >
+                            <h4 className='text-gray-300 font-semibold'>
+                                Nombre2{" "}
+                                <span className='text-gray-500 font-normal text-sm ml-8'>
+                                    00:00
+                                </span>
+                            </h4>
+                            <p className='bg-gray-700 py-2 px-4 rounded-tr-lg rounded-br-lg rounded-bl-lg text-gray-300'>Hi!, Are you still Web Designer</p>
+                        </div>
+                    </div>
+                    <div className='flex gap-4'>
+                        <img 
+                            src="https://img.freepik.com/psd-gratis/ilustracion-3d-avatar-o-perfil-humano_23-2150671142.jpg?w=826&t=st=1698302186~exp=1698302786~hmac=ce7c94086209d45488726fb504536dec95eff764ec7f5e8006abbe16c9ea68cd" 
+                            alt="profile photo" 
+                            className='w-8 h-8 object-cover rounded-full'
+                        />
+                        <div >
+                            <h4 className='text-gray-300 font-semibold'>
+                                Nombre2{" "}
+                                <span className='text-gray-500 font-normal text-sm ml-8'>
+                                    00:00
+                                </span>
+                            </h4>
+                            <p className='bg-gray-700 py-2 px-4 rounded-tr-lg rounded-br-lg rounded-bl-lg text-gray-300'>Hi!, Are you still Web Designer</p>
+                        </div>
+                    </div>
                     <div className='flex gap-4'>
                         <img 
                             src="https://img.freepik.com/psd-gratis/ilustracion-3d-avatar-o-perfil-humano_23-2150671142.jpg?w=826&t=st=1698302186~exp=1698302786~hmac=ce7c94086209d45488726fb504536dec95eff764ec7f5e8006abbe16c9ea68cd" 
