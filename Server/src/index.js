@@ -9,6 +9,8 @@ import publicacionHandler from "./routes/publication.routes.js";
 import userHandler from "./routes/user.routes.js";
 import commentHandler from "./routes/comment.routes.js";
 import responseMiddleware from "./middlewares/response.js";
+import chatRoute from "./routes/chatRoute.js";
+import messageRoute from "./routes/messageRoute.js";
 import error404Handler from "./routes/404.routes.js";
 import translateHandler from "./routes/translate.routes.js";
 
@@ -28,6 +30,8 @@ app.use(userHandler);
 app.use(publicacionHandler);
 app.use(commentHandler);
 app.use(translateHandler);
+app.use("/api/chats", chatRoute);
+app.use("/api/messages", messageRoute);
 app.use(error404Handler);
 
 app.listen(API_PORT);
