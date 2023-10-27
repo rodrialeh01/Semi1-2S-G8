@@ -52,10 +52,6 @@ export const router = createBrowserRouter([
                         element: <Chat />
                     },
                     {
-                        path:"chatbot",
-                        element: <Chatbot />
-                    },
-                    {
                         path:"addfriends",
                         element: <AddFriend />
                     }
