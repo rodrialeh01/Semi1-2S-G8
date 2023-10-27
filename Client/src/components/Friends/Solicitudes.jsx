@@ -6,14 +6,34 @@ import {
 } from "@ant-design/icons";
 import Service from "../../Service/Service";
 import { ToastContainer, toast } from 'react-toastify';
+import { useAuthContext } from "../../context/AuthContext";
 
 function Solicitudes() {
   const [solicitudesPendientes, setSolicitudesPendientes] = useState([]);
   const [response, setResponse] = useState("");
+  const { userLog, setUserLog } = useAuthContext();
+  const [token, setToken] = useState("");
+  const [loadedToken, setLoadedToken] = useState(false);
+  useEffect(() => {
+    if(!userLog){
+      navigate('/');
+    }
+    const user_data = JSON.parse(localStorage.getItem('data_user'));
+    setToken(user_data.token);
+    const timeout = setTimeout(() => {
+      setLoadedToken(true);
+    }, 1000)
+
+    return () => clearTimeout(timeout)
+  },[userLog, token, loadedToken]);
+
+
+
   useEffect(() => {
     const getSolicitudesPendientes = async () => {
       try {
-        const response = await Service.getUsers();
+        console.log(token);
+        const response = await Service.getUsers(token);
         if (response.data.message === "ok") {
           let solicitudes = [];
           response.data.data.forEach((element) => {
@@ -33,13 +53,13 @@ function Solicitudes() {
       }
     };
     getSolicitudesPendientes();
-  }, [response]);
+  }, [response, token]);
 
   const acceptFriendRequest = async (e, id) => {
     try {
       e.preventDefault();
       console.log(id);
-      const response = await Service.acceptRequest(id);
+      const response = await Service.acceptRequest(id, token);
       console.log(response)
       if (response.data.message === "Request accepted") {
         toast.success('Solicitud aceptada', {

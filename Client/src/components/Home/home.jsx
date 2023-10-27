@@ -6,6 +6,21 @@ import { useAuthContext } from "../../context/AuthContext";
 function Home() {
   const [publicaciones, setPublicaciones] = useState([]);
   const { userLog, setUserLog } = useAuthContext();
+  const [token, setToken] = useState("");
+  const [loadedToken, setLoadedToken] = useState(false);
+  useEffect(() => {
+    if(!userLog){
+      navigate('/');
+    }
+    const user_data = JSON.parse(localStorage.getItem('data_user'));
+    setToken(user_data.token);
+    const timeout = setTimeout(() => {
+      setLoadedToken(true);
+    }, 1000)
+
+    return () => clearTimeout(timeout)
+  },[userLog, token, loadedToken]);
+
 
   const options = [
     { value: "es", label: "Español" },
@@ -17,7 +32,7 @@ function Home() {
   let options2 = [{ value: "Todos", label: "Todos" }];
   const [showComentarios, setShowComentarios] = useState(false);
   const [makePublicacion, setMakePublicacion] = useState(false);
-  const [filters, setFilters] = useState([]);
+  const [filters, setFilters] = useState([options2[0]]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [hayPublicaciones, setHayPublicaciones] = useState(false);
@@ -45,8 +60,11 @@ function Home() {
 
   useEffect(() => {
     const obtPublicaciones = async () => {
+      
+
+      console.log(token);
       try {
-        const res = await Service.getPublications();
+        const res = await Service.getPublications(token);
         if (res.data.message === "ok") {
           console.log("Publicaciones obtenidas correctamente");
           const publicationData = res.data.data.publications;
@@ -66,14 +84,14 @@ function Home() {
     };
     obtPublicaciones();
     setResponse("");
-  }, [response]);
+  }, [response, token]);
 
   const obtDataUsers = async (publicacionesData) => {
     try {
       const updatedData = await Promise.all(
         publicacionesData.map(async (publicacion, index) => {
           console.log(publicacion.idUser);
-          const res = await Service.getUser(publicacion.idUser);
+          const res = await Service.getUser(publicacion.idUser, token);
           console.log(res.data.data);
           const userData = res.data;
 
@@ -132,7 +150,7 @@ function Home() {
 
     console.log(data);
     try {
-      const res = await Service.translate(data);
+      const res = await Service.translate(data, token);
       if (res.data.message === "ok") {
         console.log("Traducción realizada correctamente");
         console.log(res.data.data.textTranslate);
@@ -201,7 +219,7 @@ function Home() {
       //obtener comentarios de la publicacion
       try {
         console.log(idPublicacion);
-        const res = await Service.getComments(idPublicacion);
+        const res = await Service.getComments(idPublicacion, token);
 
         console.log(res);
         if (res.data.message === "ok") {
@@ -228,7 +246,7 @@ function Home() {
     event.preventDefault();
 
     try {
-      const res = await Service.createPublication(fData);
+      const res = await Service.createPublication(fData, token);
       if (res.data.message === "Publication created") {
         console.log("Publicación agregada correctamente");
         setMakePublicacion(false);
@@ -279,7 +297,7 @@ function Home() {
     };
 
     try {
-      const res = await Service.createComment(data);
+      const res = await Service.createComment(data, token);
       if (res.data.message === "Comentario creado correctamente") {
         setMakeComment(false);
         setResponse("ADDC");
@@ -287,7 +305,7 @@ function Home() {
         //obtener comentarios de la publicacion
         try {
           console.log(idPublicacion);
-          const res = await Service.getComments(idPublicacion);
+          const res = await Service.getComments(idPublicacion, token);
 
           console.log(res);
           if (res.data.message === "ok") {
@@ -396,9 +414,6 @@ function Home() {
                 {!hayPublicaciones ? (
                   <div className="flex justify-center items-center h-screen">
                     <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500">
-                      <h1 className="text-2xl font-bold text-white">
-                        No hay publicaciones
-                      </h1>
                     </div>
                   </div>
                 ) : (

@@ -5,6 +5,8 @@ const instance = axios.create({
     baseURL: 'http://localhost:4000/'
 });
 
+import { useAuthContext } from "../../context/AuthContext";
+
 //temporal:
 
 //REGISTRO:
@@ -41,6 +43,7 @@ export const loginFaceId = async (data) => {
 // PUBLICACIONES:
 export const getPublications = async (token) => {
     console.log("getPublications");
+    console.log(token);
     const response = await instance.get('/publications', {
         headers: {
             'Authorization': `Bearer ${token}`,
@@ -56,17 +59,17 @@ export const createPublication = async (data, token) => {
     const response = await instance.post('/create/publication', data,{
         headers: {
             'Content-Type': 'multipart/form-data',
-            'Authorization': `Bearer ${TOKEN}`
+            'Authorization': `Bearer ${token}`
         }
     });
     return response;
 }
 
 // USUARIOS:
-export const getUser = async (userId) => {
+export const getUser = async (userId, token) => {
     const response = await instance.get(`/user/${userId}`, {
         headers: {
-            'Authorization': `Bearer ${TOKEN}`,
+            'Authorization': `Bearer ${token}`,
         },
     });
     return response;
@@ -74,51 +77,51 @@ export const getUser = async (userId) => {
 
 
 // OBTENER COMENTARIOS:
-export const getComments = async (publicationId) => {
+export const getComments = async (publicationId, token) => {
     const response = await instance.get(`/comments/${publicationId}`, {
         headers: {
-            'Authorization': `Bearer ${TOKEN}`,
+            'Authorization': `Bearer ${token}`,
         },
     });
     return response;
 }
 
 //PUBLICAR COMENTARIO
-export const createComment = async (data) => {
+export const createComment = async (data, token) => {
     const response = await instance.post('/create/comment', data,{
         headers: {
-            'Authorization': `Bearer ${TOKEN}`
+            'Authorization': `Bearer ${token}`
         }
     });
     return response;
 }
 
 //OBTENER USUARIOS
-export const getUsers = async () => {
+export const getUsers = async (token) => {
     const response = await instance.get('/users', {
         headers: {
-            'Authorization': `Bearer ${TOKEN}`,
+            'Authorization': `Bearer ${token}`,
         },
     });
     return response;
 }
 
 //ACEPTAR SOLICITUD DE AMISTAD
-export const acceptRequest = async (id) => {
+export const acceptRequest = async (id, token) => {
     console.log("ESTOY EN ACCEPT REQUEST")
     const response = await instance.post(`/accept/request/friend/${id}`, null, {
         headers: {
-            'Authorization': `Bearer ${TOKEN}`,
+            'Authorization': `Bearer ${token}`,
         }
     });
     return response;
 }
 
-export const translate = async (data) => {
+export const translate = async (data, token) => {
     const response = await instance.post('/translate', data,{
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${TOKEN}`
+            'Authorization': `Bearer ${token}`
         }
     });
     return response;
