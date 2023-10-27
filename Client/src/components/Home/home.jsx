@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import Service from "../../Service/Service";
 import { useAuthContext } from "../../context/AuthContext";
+import { useChatContext } from "../../context/ChatContext";
 function Home() {
   const [publicaciones, setPublicaciones] = useState([]);
   const { userLog, setUserLog } = useAuthContext();
+  const { userC, setUserC, userChats } = useChatContext();
   const [token, setToken] = useState("");
   const [loadedToken, setLoadedToken] = useState(false);
   useEffect(() => {

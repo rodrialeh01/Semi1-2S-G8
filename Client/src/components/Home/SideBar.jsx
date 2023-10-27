@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { BiLogOut } from "react-icons/bi";
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuthContext } from "../../context/AuthContext";
+import { useChatContext } from "../../context/ChatContext";
 function SideBar() {
   const navigate = useNavigate();
   const { userLog, setUserLog } = useAuthContext();
+  const { setUserC } = useChatContext();
   const [nombre, setNombre] = useState('');
   const [correo, setCorreo] = useState('');
   const [foto, setFoto] = useState('');
@@ -41,6 +43,7 @@ function SideBar() {
   const logout = () => {
     localStorage.clear();
     setUserLog(false);
+    setUserC(null);
     navigate('/');
   }
 

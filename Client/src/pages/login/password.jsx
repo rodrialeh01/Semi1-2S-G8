@@ -3,6 +3,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Service from '../../Service/Service';
 import { useAuthContext } from '../../context/AuthContext';
+import { useChatContext } from '../../context/ChatContext';
 import { Desencriptar } from '../../utils/main';
 import './Login.css';
 
@@ -11,6 +12,7 @@ function Password() {
   const { user } = useParams();
   const navigate = useNavigate();
   const { userLog, setUserLog } = useAuthContext();
+  const { userC, setUserC } = useChatContext();
   const style_font = {
     fontFamily: "'Quicksand', sans-serif",
   };
@@ -55,9 +57,10 @@ function Password() {
         }
         localStorage.setItem('data_user', JSON.stringify(uslog));
         setUserLog(true);
+        setUserC(response.data.data.user);
         navigate('/user/home');
       })
-      
+      console.log(userC)
     }catch(error){
       toast('Hubo un error!, intentalo de nuevo',
         {

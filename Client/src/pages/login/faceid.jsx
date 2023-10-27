@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import Service from '../../Service/Service';
 import { useAuthContext } from '../../context/AuthContext';
+import { useChatContext } from '../../context/ChatContext';
 import { Desencriptar } from '../../utils/main';
 import './Login.css';
 
@@ -13,6 +14,7 @@ function FaceId() {
   const [canvas, setCanvas] = useState(null);
   const { user } = useParams();
   const { userLog, setUserLog } = useAuthContext();
+  const { setUserC } = useChatContext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -100,6 +102,7 @@ function FaceId() {
           console.log(uslog)
           localStorage.setItem('data_user', JSON.stringify(uslog));
           setUserLog(true);
+          setUserC(response.data.data.user);
           navigate('/user/home');
         })
         

@@ -5,7 +5,6 @@ const instance = axios.create({
     baseURL: 'http://localhost:4000/'
 });
 
-import { useAuthContext } from "../../context/AuthContext";
 
 //temporal:
 
@@ -127,7 +126,47 @@ export const translate = async (data, token) => {
     return response;
 }
 
+//CHATS
+//OBTIENE LOS CHATS
+export const getUserChats = async (token, id) => {
+    const response = await instance.get(`/api/chats/${id}`,{
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    return response;
+}
 
+//OBTIENE LOS MENSAJES DE UN CHAT
+export const getChatMessages = async (token, id) => {
+    const response = await instance.get(`/api/messages/${id}`,{
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    return response;
+}
+
+//CREA UN CHAT
+export const createChat = async (token, data) => {
+    const response = await instance.post('/api/chats', data,{
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    return response;
+}
+
+//Obtener los chats con los users
+export const findUsersChats = async (token, id) => {
+    const response = await instance.get(`/api/chats/find/${id}`,{
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    return response;
+}
 
 //PLANTILLA
 //JSON
