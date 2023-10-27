@@ -2,8 +2,10 @@ import { WechatFilled } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import Service from "../../Service/Service";
+import { useAuthContext } from "../../context/AuthContext";
 function Home() {
   const [publicaciones, setPublicaciones] = useState([]);
+  const { userLog, setUserLog } = useAuthContext();
 
   const options = [
     { value: "es", label: "Español" },

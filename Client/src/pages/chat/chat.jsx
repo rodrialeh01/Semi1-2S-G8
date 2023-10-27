@@ -1,7 +1,11 @@
-import { React } from 'react';
+import { React, useEffect } from 'react';
 import { AiOutlineSearch } from "react-icons/ai";
 import { TbSend } from "react-icons/tb";
 const Chat = () => {
+    useEffect(() => {
+        const divElement = document.getElementById('divchat');
+        divElement.scrollTop = divElement.scrollHeight;
+    }, []);
     return (
         <div className='ml-[16rem] w-screen max-h-screen flex flex-col bg-[#22222A]'>
             <div className='h-[95vh] grid grid-cols-6 min-h-screen'>
@@ -53,7 +57,7 @@ const Chat = () => {
                     </div>
                     <div>
                         <div className='flex-1 flex items-center justify-between'>
-                            <h1 className='text-3xl text-gray-300'>Nombre2</h1>
+                            <h1 className='text-3xl text-gray-300 font-semibold'>Nombre2</h1>
                         </div>
                     </div>
                 </div>
@@ -65,7 +69,7 @@ const Chat = () => {
                     </form>
                 </div>
                 {/* CHAT */}
-                <div className='mt-24 max-h-[calc(100vh-10rem)] h-screen overflow-y-scroll overflow-x-hidden scrollbar-hide pb-24'>
+                <div id="divchat" className='mt-24 max-h-[calc(100vh-10rem)] h-screen overflow-y-scroll overflow-x-hidden scrollbar-hide pb-24'>
                     <div className='flex gap-4'>
                         <img 
                             src="https://img.freepik.com/psd-gratis/ilustracion-3d-avatar-o-perfil-humano_23-2150671142.jpg?w=826&t=st=1698302186~exp=1698302786~hmac=ce7c94086209d45488726fb504536dec95eff764ec7f5e8006abbe16c9ea68cd" 

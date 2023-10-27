@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import { ToastContainer } from 'react-toastify';
+import toast, { Toaster } from 'react-hot-toast';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import Service from '../../Service/Service';
+import { useAuthContext } from '../../context/AuthContext';
+import { Desencriptar } from '../../utils/main';
 import './Login.css';
 
 function Password() {
-  const [email_user, setEmail_user] = useState('');
   const [pass_user, setPass_user] = useState('');
-
+  const { user } = useParams();
+  const navigate = useNavigate();
+  const { userLog, setUserLog } = useAuthContext();
   const style_font = {
     fontFamily: "'Quicksand', sans-serif",
   };
@@ -14,48 +19,60 @@ function Password() {
 		e.preventDefault();
 	}
 
-  const onChangeEmail = (e) =>{
-    setEmail_user(e.target.value);
-  }
-
   const onChangePass = (e) =>{
     setPass_user(e.target.value);
   }
 
   const handleLogin = () => {
+    const email = Desencriptar(user);
     const data = {
-      correo: email_user,
+      email: email,
       password: pass_user
     }
-    /*try{
-      Service.login(data)
+    console.log(data)
+    try{
+      Service.loginPassword(data)
       .then(response => {
+        if(response.status !== 200){
+          setTimeout(() => {
+            toast('Hubo un error!, intentalo de nuevo',
+              {
+                icon: '❌',
+                style: {
+                  borderRadius: '10px',
+                  background: '#333',
+                  color: '#fff',
+                },
+              }
+            );
+            navigate('/');
+          }, 2000);
+        }
         console.log(response.data)
-        if(!response.data.status){
-          toast.error('Ocurrió un Error!,No se pudo iniciar sesión', {
-            position: "bottom-right",
-            autoClose: 4000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-          return;
+        const uslog = {
+          user: response.data.data.user,
+          token: response.data.data.token
         }
-        const data_a_guardar = {
-          id: response.data.datosUusario.id_usuario,
-          rol: response.data.datosUusario.rol
-        }
-        localStorage.setItem('data_user', JSON.stringify(data_a_guardar));
-        setLogueado(true);
+        localStorage.setItem('data_user', JSON.stringify(uslog));
+        setUserLog(true);
         navigate('/user/home');
       })
       
     }catch(error){
-      console.log(error);
-    }*/
+      toast('Hubo un error!, intentalo de nuevo',
+        {
+          icon: '❌',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      );
+      setTimeout(() => {
+        navigate('/');
+      }, 2000);
+    }
   }
     return (
         <div className="min-h-screen bg-celeste text-white flex justify-center fuente" >
@@ -87,9 +104,14 @@ function Password() {
                 </button>
                 <p className="mt-6 text-xs text-white text-center"style={style_font}>
                   ¿Acaso no tienes cuenta? , 
-                  <a to="/registro" className="border-b border-darkBlue border-dotted text-darkBlue"style={style_font} >
+                  <Link to="/registrarse" className="border-b border-darkBlue border-dotted text-darkBlue"style={style_font} >
                     Registrate Aqui
-                  </a>
+                  </Link>
+                </p>
+                <p className="mt-6 text-xs text-white text-center"style={style_font}>
+                  <Link to="/login" className="border-b border-darkBlue border-dotted text-darkBlue"style={style_font} >
+                    Regresar
+                  </Link>
                 </p>
               </div>
             </div>
@@ -109,7 +131,10 @@ function Password() {
 
       </div>
       <div>
-        <ToastContainer />
+      <Toaster
+        position="bottom-right"
+        reverseOrder={false}
+      />
       </div>
     </div>
     );

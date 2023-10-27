@@ -1,8 +1,12 @@
 import React, { useRef, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import Modal from 'react-modal';
+import { Link, useNavigate } from 'react-router-dom';
 import Webcam from 'react-webcam';
+import Service from '../../Service/Service';
 import './registro.css';
 function Registro(){
+    const navigate = useNavigate();
     const style_font = {
         fontFamily: "'Josefin Sans', sans-serif",
     };
@@ -15,16 +19,16 @@ function Registro(){
 
 	const[Nombres, setNombres] = useState('');
 	const[Apellidos, setApellidos] = useState('');
+  const[Dpi, setDpi] = useState('');
 	const[Correo, setCorreo] = useState('');
-	const[FechaNacimiento, setFechaNacimiento] = useState('');
 	const[Contrasena, setContrasena] = useState('');
 	const[ConfirmarContrasena, setConfirmarContrasena] = useState('');
 	const[Foto, setFoto] = useState(null);
 	const[namephoto, setNamephoto] = useState('Carga tu foto ');
-    const [nameCamera, setNameCamera] = useState('Toma tu foto ');
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [capturedImage, setCapturedImage] = useState(null); // Nuevo estado para la imagen capturada
-    const webcamRef = useRef(null);
+  const [nameCamera, setNameCamera] = useState('Toma tu foto ');
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [capturedImage, setCapturedImage] = useState(null); // Nuevo estado para la imagen capturada
+  const webcamRef = useRef(null);
     const openModal = () => {
         setModalIsOpen(true);
     }
@@ -34,32 +38,40 @@ function Registro(){
     }
 
     const capture = () => {
-        const imageSrc = webcamRef.current.getScreenshot();
-        setCapturedImage(imageSrc);
-        console.log(imageSrc);
-    
-        // Verificar si hay una imagen capturada antes de intentar crear el objeto File
-        if (imageSrc) {
-            // Convertir la imagen a un Blob
-            const blob = new Blob([imageSrc], { type: 'image/jpeg' });
-    
-            // Crear un objeto File a partir del Blob
-            const file = new File([blob], 'captured.jpg', { type: 'image/jpeg' });
-            console.log(file);
-    
-            // Asignar el archivo a tu estado Foto
-            setFoto(file);
-            setNamephoto('captured.jpg');
-            closeModal()
-        }
+      const imageSrc = webcamRef.current.getScreenshot();
+      setCapturedImage(imageSrc);
+      console.log(imageSrc);
+  
+      // Verificar si hay una imagen capturada antes de intentar crear el objeto File
+      if (imageSrc) {
+        const file = dataURLtoFile(imageSrc, 'captured_image.png');
+        console.log(file);
+        setFoto(file);
+        setNamephoto('captured_image.jpg');
+        closeModal()
+      }
+  }
+
+  function dataURLtoFile(dataURL, fileName) {
+    const arr = dataURL.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+  
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
     }
+  
+    return new File([u8arr], fileName, { type: mime });
+  }
+
 	//const navigate = useNavigate();
 	const handleSubmit = (e) =>{
 		e.preventDefault();
 	}
 
 	const onChangeNombres = (e) =>{
-		console.log(e.target.value);
 		setNombres(e.target.value);
 	}
 
@@ -67,13 +79,12 @@ function Registro(){
 		setApellidos(e.target.value);
 	}
 
-	const onChangeCorreo = (e) =>{
-		setCorreo(e.target.value);
+  const onChangeDpi = (e) =>{
+		setDpi(e.target.value);
 	}
 
-	const onChangeFechaNacimiento = (e) =>{
-		console.log(e.target.value);
-		setFechaNacimiento(e.target.value);
+	const onChangeCorreo = (e) =>{
+		setCorreo(e.target.value);
 	}
 
 	const onChangeContrasena = (e) =>{
@@ -92,39 +103,97 @@ function Registro(){
       };
 
 	const handleValidacionRegistro = () =>{
-		if(Nombres === '' || Apellidos === '' || Correo === '' || Contrasena === '' || ConfirmarContrasena === ''){
-			alert('Todos los campos son obligatorios');
+		if(Nombres === '' || Apellidos === '' || Correo === '' || Contrasena === '' || ConfirmarContrasena === '' || Dpi === ''){
+			toast('Todos los campos son obligatorios',
+        {
+          icon: '❌',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      );
 			return;
 		}
 		if(Contrasena !== ConfirmarContrasena){
-			alert('Las contraseñas no coinciden');
-			return;
+      toast('Las contraseñas no coinciden',
+        {
+          icon: '❌',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      );
+      return;
 		}
 		if(Foto === null){
-			alert('Debes cargar una foto');
-			return;
+			toast('Debes cargar una foto o tomarte una foto',
+        {
+          icon: '❌',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      );
+      return;
 		}
         console.log('Foto')
         console.log(Foto)
 		const formData = new FormData();
-		formData.append('nombres', Nombres);
-		formData.append('apellidos', Apellidos);
-		formData.append('correo', Correo);
+		formData.append('name', Nombres);
+		formData.append('lastName', Apellidos);
+		formData.append('email', Correo);
+    formData.append('dpi', Dpi);
 		formData.append('password', Contrasena);
-		formData.append('fecha_nac', FechaNacimiento);
-		formData.append('imagen', Foto);
+		formData.append('image', Foto);
 
-		{/*try{
-			Service.registro(formData)
+		try{
+			Service.registroUsuario(formData)
 			.then(response => {
-				if(response.status){
-					alert('Usuario registrado correctamente');
-					navigate('/login')
-				}
+				if(response.status === 200){
+					toast.success('Usuario registrado correctamente, verifica tu correo electrónico para poder loguearte', 
+            {
+              icon: '✅',
+              style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+              },
+            }
+          );
+          setTimeout(() => {
+            navigate('/')
+          }, 2000);
+				}else{
+          toast('Hubo un error!, intentalo de nuevo',
+            {
+              icon: '❌',
+              style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+              },
+            }
+          );
+        }
 			})
 		}catch(error){
-			console.log(error);
-		}*/}
+			toast('Hubo un error!, intentalo de nuevo',
+        {
+          icon: '❌',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      );
+		}
 
 	}
 	const onChangeFoto = (e) =>{
@@ -133,10 +202,6 @@ function Registro(){
 		setNamephoto(selectedFile.name);
 		setFoto(selectedFile);
 	}
-
-    const onChangeCamera = (e) =>{
-        console.log('Camera');
-    }
 
     return (
         <div className="h-screen md:flex fuente">
@@ -161,9 +226,22 @@ function Registro(){
 					type="text" 
 					name="name_user" 
 					id="name_user" 
-					placeholder="Nombre Completo" 
+					placeholder="Nombres" 
 					onChange={onChangeNombres}
 					value={Nombres}
+					required
+                    style={{ width: "100%" }}
+				/>
+      </div>
+      <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4" style={style_font3}>
+                <img width="20" height="20" src="https://img.icons8.com/ios-glyphs/20/306bac/user--v1.png" alt="user--v1"/>
+				<input className="pl-2 outline-none border-none bg-black text-white" 
+					type="text" 
+					name="ap_user" 
+					id="ap_user" 
+					placeholder="Apellidos" 
+					onChange={onChangeApellidos}
+					value={Apellidos}
 					required
                     style={{ width: "100%" }}
 				/>
@@ -188,8 +266,8 @@ function Registro(){
 					name="dpi_user" 
 					id="dpi_user" 
 					placeholder="No. de DPI" 
-					onChange={onChangeApellidos}
-					value={Apellidos}
+					onChange={onChangeDpi}
+					value={Dpi}
 					required
                     style={{ width: "100%" }}
 				/>
@@ -281,10 +359,15 @@ function Registro(){
 </div>
         <button type="submit" className="block w-full bg-azul mt-4 py-2 rounded-2xl text-white font-semibold mb-2" onClick={handleValidacionRegistro} style={style_font3}>Registrar</button>
         <p className='text-sm ml-2 text-white'>Acaso ya tienes cuenta ? 
-        <a to="/" className="text-sm ml-2 hover:text-white cursor-pointer text-azul">Inicia Sesión</a></p>
+        <Link to="/" className="text-sm ml-2 hover:text-white cursor-pointer text-azul">Inicia Sesión</Link></p>
 		</form>
 	</div>
+      <Toaster
+        position="bottom-right"
+        reverseOrder={false}
+      />
 </div>
+
     );
 }
 

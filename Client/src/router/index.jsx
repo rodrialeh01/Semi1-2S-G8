@@ -3,8 +3,8 @@ import Solicitudes from '../components/Friends/Solicitudes';
 import AddFriend from '../components/Friends/add';
 import SideBar from '../components/Home/SideBar';
 import Home from '../components/Home/home';
+import EditProfile from '../components/Profile/EditProfile';
 import LayoutPrivate from '../layout/LayoutPrivate';
-import Chatbot from '../pages/bot/chat';
 import Chat from '../pages/chat/chat';
 import FaceId from '../pages/login/faceid';
 import Login from '../pages/login/login';
@@ -54,6 +54,10 @@ export const router = createBrowserRouter([
                     {
                         path:"addfriends",
                         element: <AddFriend />
+                    },
+                    {
+                        path:"edit",
+                        element: <EditProfile />
                     }
                 ]
             }

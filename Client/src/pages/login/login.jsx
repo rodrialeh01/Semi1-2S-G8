@@ -1,11 +1,23 @@
-import React, { useState } from 'react';
-import { ToastContainer } from 'react-toastify';
+import React, { useEffect, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../context/AuthContext';
+import { Encriptar, validarCorreo } from '../../utils/main';
+
+
 import './Login.css';
 
 function Login() {
   const [email_user, setEmail_user] = useState('');
-  const [pass_user, setPass_user] = useState('');
-
+  const navigate = useNavigate();
+  const { userLog, setuserLog } = useAuthContext();
+  useEffect(() => {
+    console.log(userLog)
+    if(userLog){
+      navigate('/user/home');
+    }
+  }, [userLog])
+  
   const style_font = {
     fontFamily: "'Quicksand', sans-serif",
   };
@@ -18,44 +30,68 @@ function Login() {
     setEmail_user(e.target.value);
   }
 
-  const onChangePass = (e) =>{
-    setPass_user(e.target.value);
+  const iniciarConContraseña = () => {
+    if(email_user === ''){
+      toast('No puedes dejar el input en blanco',
+        {
+          icon: '❌',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      );
+      return;
+    }
+    if(validarCorreo(email_user) === false){
+      toast('El correo no es valido',
+        {
+          icon: '❌',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      );
+      return;
+    }
+    const emailEncriptado = Encriptar(email_user);
+    console.log(emailEncriptado);
+    navigate(`/login/password/${emailEncriptado}`);
   }
 
-  const handleLogin = () => {
-    const data = {
-      correo: email_user,
-      password: pass_user
+  const iniciarConFaceID = () => {
+    if(email_user === ''){
+      toast('No puedes dejar el input en blanco',
+        {
+          icon: '❌',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      );
+      return;
     }
-    /*try{
-      Service.login(data)
-      .then(response => {
-        console.log(response.data)
-        if(!response.data.status){
-          toast.error('Ocurrió un Error!,No se pudo iniciar sesión', {
-            position: "bottom-right",
-            autoClose: 4000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-          return;
+    if(validarCorreo(email_user) === false){
+      toast('El correo no es valido',
+        {
+          icon: '❌',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
         }
-        const data_a_guardar = {
-          id: response.data.datosUusario.id_usuario,
-          rol: response.data.datosUusario.rol
-        }
-        localStorage.setItem('data_user', JSON.stringify(data_a_guardar));
-        setLogueado(true);
-        navigate('/user/home');
-      })
-      
-    }catch(error){
-      console.log(error);
-    }*/
+      );
+      return;
+    }
+    const emailEncriptado = Encriptar(email_user);
+    console.log(emailEncriptado);
+    navigate(`/login/faceid/${emailEncriptado}`);
   }
     return (
         <div className="min-h-screen bg-celeste text-white flex justify-center fuente" >
@@ -80,23 +116,23 @@ function Login() {
                   value={email_user}/>
                 <button
                   className="mt-5 tracking-wide font-semibold bg-darkBlue text-gray-100 w-full py-4 rounded-lg hover:bg-purple transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
-                  type="button" onClick={handleLogin} >
+                  type="button" onClick={iniciarConContraseña} >
                   <span className="ml-3" style={style_font}>
                     Iniciar Sesión con Contraseña
                   </span>
                 </button>
                 <button
                   className="mt-5 tracking-wide font-semibold bg-darkBlue text-gray-100 w-full py-4 rounded-lg hover:bg-purple transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
-                  type="button" onClick={handleLogin} >
+                  type="button" onClick={iniciarConFaceID} >
                   <span className="ml-3" style={style_font}>
                     Iniciar Sesión con Face ID
                   </span>
                 </button>
                 <p className="mt-6 text-xs text-white text-center"style={style_font}>
                   ¿Acaso no tienes cuenta? , 
-                  <a to="/registro" className="border-b border-darkBlue border-dotted text-darkBlue"style={style_font} >
+                  <Link to="/registrarse" className="border-b border-darkBlue border-dotted text-darkBlue"style={style_font} >
                     Registrate Aqui
-                  </a>
+                  </Link>
                 </p>
               </div>
             </div>
@@ -115,9 +151,10 @@ function Login() {
         </div>
 
       </div>
-      <div>
-        <ToastContainer />
-      </div>
+      <Toaster
+        position="bottom-right"
+        reverseOrder={false}
+      />
     </div>
     );
 }

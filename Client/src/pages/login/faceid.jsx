@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import Service from '../../Service/Service';
+import { useAuthContext } from '../../context/AuthContext';
+import { Desencriptar } from '../../utils/main';
 import './Login.css';
 
 function FaceId() {
@@ -7,6 +11,9 @@ function FaceId() {
   const [pass_user, setPass_user] = useState('');
   const [videoStream, setVideoStream] = useState(null);
   const [canvas, setCanvas] = useState(null);
+  const { user } = useParams();
+  const { userLog, setUserLog } = useAuthContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Acceder a la cámara cuando el componente se monta
@@ -58,6 +65,59 @@ function FaceId() {
       // Convertir la imagen a un objeto File
       const file = dataURLtoFile(imageDataURL, 'captured_image.png');
       console.log(file);
+
+      videoStream.getTracks().forEach(track => track.stop());
+      const email = Desencriptar(user);
+      console.log(email)
+      const data = new FormData();
+      data.append('email', email);
+      data.append('image', file);
+      console.log(data)
+
+      try{
+        Service.loginFaceId(data)
+        .then(response => {
+          if(response.status !== 200){
+            toast('Hubo un error!, intentalo de nuevo',
+              {
+                icon: '❌',
+                style: {
+                  borderRadius: '10px',
+                  background: '#333',
+                  color: '#fff',
+                },
+              }
+            );
+            setTimeout(() => {
+              navigate('/');
+            }, 2000);
+          }
+          console.log(response.data)
+          const uslog = {
+            user: response.data.data.user,
+            token: response.data.data.token
+          }
+          console.log(uslog)
+          localStorage.setItem('data_user', JSON.stringify(uslog));
+          setUserLog(true);
+          navigate('/user/home');
+        })
+        
+      }catch(error){
+        setTimeout(() => {
+          toast('Hubo un error!, intentalo de nuevo',
+            {
+              icon: '❌',
+              style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+              },
+            }
+          );
+          navigate('/');
+        }, 2000);
+      }
     }
   }
 
@@ -77,41 +137,6 @@ function FaceId() {
     setPass_user(e.target.value);
   }
 
-  const handleLogin = () => {
-    const data = {
-      correo: email_user,
-      password: pass_user
-    }
-    /*try{
-      Service.login(data)
-      .then(response => {
-        console.log(response.data)
-        if(!response.data.status){
-          toast.error('Ocurrió un Error!,No se pudo iniciar sesión', {
-            position: "bottom-right",
-            autoClose: 4000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-          return;
-        }
-        const data_a_guardar = {
-          id: response.data.datosUusario.id_usuario,
-          rol: response.data.datosUusario.rol
-        }
-        localStorage.setItem('data_user', JSON.stringify(data_a_guardar));
-        setLogueado(true);
-        navigate('/user/home');
-      })
-      
-    }catch(error){
-      console.log(error);
-    }*/
-  }
     return (
         <div className="min-h-screen bg-celeste text-white flex justify-center fuente" >
       <div className="max-w-screen-xl m-0 sm:m-10 bg-azul shadow sm:rounded-lg flex justify-center flex-1">
@@ -137,9 +162,14 @@ function FaceId() {
                 </button>
                 <p className="mt-6 text-xs text-white text-center"style={style_font}>
                   ¿Acaso no tienes cuenta? , 
-                  <a to="/registro" className="border-b border-darkBlue border-dotted text-darkBlue"style={style_font} >
+                  <Link to="/registrarse" className="border-b border-darkBlue border-dotted text-darkBlue"style={style_font} >
                     Registrate Aqui
-                  </a>
+                  </Link>
+                </p>
+                <p className="mt-6 text-xs text-white text-center"style={style_font}>
+                  <Link to="/login" className="border-b border-darkBlue border-dotted text-darkBlue"style={style_font} >
+                    Regresar
+                  </Link>
                 </p>
               </div>
             </div>

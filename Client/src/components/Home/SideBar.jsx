@@ -1,7 +1,49 @@
-import React from "react";
-import { Outlet } from 'react-router-dom';
-
+import React, { useEffect, useState } from "react";
+import { BiLogOut } from "react-icons/bi";
+import { Outlet, useNavigate } from 'react-router-dom';
+import { useAuthContext } from "../../context/AuthContext";
 function SideBar() {
+  const navigate = useNavigate();
+  const { userLog, setUserLog } = useAuthContext();
+  const [nombre, setNombre] = useState('');
+  const [correo, setCorreo] = useState('');
+  const [foto, setFoto] = useState('');
+
+  useEffect(() => {
+    if(userLog){
+      const data_user = JSON.parse(localStorage.getItem("data_user"));
+      setNombre(data_user.user.name);
+      setCorreo(data_user.user.email);
+      setFoto(data_user.user.pathImage);
+    }
+  }, [userLog])
+
+  const gotoHome = () => {
+    navigate('/user/home');
+  }
+
+  const gotoSolicitudes = () => {
+    navigate('/user/solicitudes');
+  }
+
+  const gotoChat = () => {
+    navigate('/user/chat');
+  }
+
+  const gotoAddFriends = () => {
+    navigate('/user/addfriends');
+  }
+  
+  const gotoEdit = () => {
+    navigate('/user/edit');
+  }
+
+  const logout = () => {
+    localStorage.clear();
+    setUserLog(false);
+    navigate('/');
+  }
+
   return (
     <div className="flex fixed">
       <div className=" bg-black text-gray-500 p-5 text-xs lg:text-sm w-[16rem] scrollbar-hide h-screen sm:max-w-[12rem] lg:max-w-[16rem] hidden md:inline-flex fixed border-r border-celeste">
@@ -16,20 +58,20 @@ function SideBar() {
           <hr className="border-t-[0.1px] border-gray-900 w-[12rem]" />
 
           <div className="text-center">
-            <button className="items-center space-x-2 hover:text-white">
+            <button className="items-center space-x-2 hover:text-white" onClick={gotoEdit}>
               <img
                 className="h-32 w-32 rounded-full mx-auto"
-                src="http://imgfz.com/i/idQw9sx.png"
+                src={foto}
                 alt=""
               />
 
-              <h1 className="mt-2 text-xl font-semibold">Nombre Apellido</h1>
-              <p className="mt-2">correo@correo.com</p>
+              <h1 className="mt-2 text-xl font-semibold">{nombre}</h1>
+              <p className="mt-2">{correo}</p>
             </button>
           </div>
 
           <hr className="border-t-[0.1px] border-gray-900 w-[12rem]" />
-          <button className="flex items-center space-x-2 hover:text-celeste_claro">
+          <button className="flex items-center space-x-2 hover:text-celeste_claro" onClick={gotoHome}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -47,7 +89,7 @@ function SideBar() {
 
             <p>Home</p>
           </button>
-          <button className="flex items-center space-x-2 hover:text-celeste_claro">
+          <button className="flex items-center space-x-2 hover:text-celeste_claro" onClick={gotoSolicitudes}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -65,7 +107,7 @@ function SideBar() {
 
             <p>Solicitudes de Amistad</p>
           </button>
-          <button className="flex items-center space-x-2 hover:text-celeste_claro">
+          <button className="flex items-center space-x-2 hover:text-celeste_claro" onClick={gotoChat}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -84,7 +126,7 @@ function SideBar() {
             <p>Chat</p>
           </button>
 
-          <button className="flex items-center space-x-2 hover:text-celeste_claro">
+          <button className="flex items-center space-x-2 hover:text-celeste_claro" onClick={gotoAddFriends}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -100,6 +142,10 @@ function SideBar() {
               />
             </svg>
             <p>Buscar Amigos</p>
+          </button>
+          <button className="flex items-center space-x-2 hover:text-celeste_claro" onClick={logout}>
+            <BiLogOut className=" w-6 h-6"/>
+            <p>Cerrar Sesión</p>
           </button>
         </div>
       </div>

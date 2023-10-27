@@ -1,11 +1,11 @@
-import { User } from "../db/userModel.js";
-import { cognitoConfig, rekognitionConfig } from "../config/credentials.js";
-import { CognitoUserPool, CognitoUserAttribute, AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js';
-import crypto from "crypto";
-import { saveObj } from '../config/objectHandler.js';
-import { tipoObjeto } from '../config/constants.js';
+import { AuthenticationDetails, CognitoUser, CognitoUserAttribute, CognitoUserPool } from 'amazon-cognito-identity-js';
 import AWS from 'aws-sdk';
 import axios from 'axios';
+import crypto from "crypto";
+import { tipoObjeto } from '../config/constants.js';
+import { cognitoConfig, rekognitionConfig } from "../config/credentials.js";
+import { saveObj } from '../config/objectHandler.js';
+import { User } from "../db/userModel.js";
 
 const cognito = new CognitoUserPool(cognitoConfig);
 const rekognition = new AWS.Rekognition(rekognitionConfig);
