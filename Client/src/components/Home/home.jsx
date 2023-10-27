@@ -122,36 +122,34 @@ function Home() {
     console.log(idioma);
     let translated = "";
 
-      let data = {
-        "id" : idPublicacion,
-        "text": description,
-        "language": idioma
-      };
+    let data = {
+      id: idPublicacion,
+      text: description,
+      language: idioma,
+    };
 
-      console.log(data);
-      try {
-        
-        const res = await Service.translate(data);
-        if (res.data.message === "ok") {
-          console.log("Traducción realizada correctamente");
-          console.log(res.data.data.textTranslate);
-          translated = res.data.data.textTranslate;
-        } else {
-          console.log("Error al realizar la traducción");
-        }
-      } catch (error) {
-        console.log(error);
+    console.log(data);
+    try {
+      const res = await Service.translate(data);
+      if (res.data.message === "ok") {
+        console.log("Traducción realizada correctamente");
+        console.log(res.data.data.textTranslate);
+        translated = res.data.data.textTranslate;
+      } else {
+        console.log("Error al realizar la traducción");
       }
-    
+    } catch (error) {
+      console.log(error);
+    }
 
-      const updatedPublications = [...publicaciones];
-      const index = updatedPublications.findIndex(
-        (publicacion) => publicacion._id === idPublicacion
-      );
-      updatedPublications[index].description = translated;
-      setPublicaciones(updatedPublications);
+    const updatedPublications = [...publicaciones];
+    const index = updatedPublications.findIndex(
+      (publicacion) => publicacion._id === idPublicacion
+    );
+    updatedPublications[index].description = translated;
+    setPublicaciones(updatedPublications);
 
-      console.log(publicaciones);
+    console.log(publicaciones);
     //console.log(descTranslated);
   };
 
@@ -161,38 +159,36 @@ function Home() {
     console.log(idioma);
     let translated = "";
 
-      let data = {
-        "id" : idComentario,
-        "text": comment,
-        "language": idioma
-      };
+    let data = {
+      id: idComentario,
+      text: comment,
+      language: idioma,
+    };
 
-      console.log(data);
-      try {
-        
-        const res = await Service.translate(data);
-        if (res.data.message === "ok") {
-          console.log("Traducción realizada correctamente");
-          console.log(res.data.data.textTranslate);
-          translated = res.data.data.textTranslate;
-        } else {
-          console.log("Error al realizar la traducción");
-        }
-      } catch (error) {
-        console.log(error);
+    console.log(data);
+    try {
+      const res = await Service.translate(data);
+      if (res.data.message === "ok") {
+        console.log("Traducción realizada correctamente");
+        console.log(res.data.data.textTranslate);
+        translated = res.data.data.textTranslate;
+      } else {
+        console.log("Error al realizar la traducción");
       }
+    } catch (error) {
+      console.log(error);
+    }
 
-      const updatedComentarios = [...comentarios];
-      const index = updatedComentarios.findIndex(
-        (comentario) => comentario._id === idComentario
-      );
-      updatedComentarios[index].comment = translated;
-      setComentarios(updatedComentarios);
+    const updatedComentarios = [...comentarios];
+    const index = updatedComentarios.findIndex(
+      (comentario) => comentario._id === idComentario
+    );
+    updatedComentarios[index].comment = translated;
+    setComentarios(updatedComentarios);
 
-      console.log(comentarios);
+    console.log(comentarios);
     //console.log(descTranslated);
   };
-
 
   const handleShowComentarios = async (idPublicacion) => {
     if (showComentarios) {
@@ -285,12 +281,12 @@ function Home() {
       if (res.data.message === "Comentario creado correctamente") {
         setMakeComment(false);
         setResponse("ADDC");
-        setInputComentario("")
+        setInputComentario("");
         //obtener comentarios de la publicacion
         try {
           console.log(idPublicacion);
           const res = await Service.getComments(idPublicacion);
-  
+
           console.log(res);
           if (res.data.message === "ok") {
             const comentariosData = res.data.data;
@@ -301,17 +297,13 @@ function Home() {
         } catch (error) {
           console.log(error);
         }
-
       } else {
         console.log("Error al agregar el comentario");
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
-    
-
-  }
+  };
 
   const handleModalComentarios = () => {
     if (makeComment) {
@@ -325,9 +317,6 @@ function Home() {
     setInputComentario(event.target.value);
   };
 
-
-
-
   const formatFecha = (fecha) => {
     const date = new Date(fecha);
     console.log(date);
@@ -340,70 +329,75 @@ function Home() {
 
   return (
     <div className="h-screen max-h-screen w-screen bg-gradient-to-tr from-darkBlue to-azul flex flex-col">
-      {loading ? (
-        <div className="flex justify-center items-center h-screen">
-          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500"></div>
-        </div>
-      ) : (
-        <div className="ml-[16rem] flex-1 ">
-          <div className="flex cols-2 gap-4">
-            <div className="flex flex-col w-8/12 h-screen">
-              <div className="h-1/6">
-                <div className="h-full p-4">
-                  <div className="h-full  p-4">
-                    <div className="grid grid-cols-3">
-                      <div className="px-2">
-                        <h1 className="text-xl font-bold">Traducción: </h1>
-                        <Select
-                          options={options}
-                          defaultValue={options[0]}
-                          onChange={(e) => eleccionIdioma(e.value)}
-                        />
-                      </div>
-                      <div className="px-2 col-span-2">
-                        <h1 className="text-xl font-bold">Filtros: </h1>
-                        <Select
-                          isMulti
-                          defaultValue={[filters[0]]}
-                          options={filters}
-                          onChange={filterPublications}
-                          className="basic-multi-select"
-                          classNamePrefix="select"
-                        />
-                      </div>
+      <div className="ml-[16rem] flex-1 ">
+        <div className="flex cols-2 gap-4">
+          <div className="flex flex-col w-8/12 h-screen">
+            <div className="h-1/6">
+              <div className="h-full p-4">
+                <div className="h-full  p-4">
+                  <div className="grid grid-cols-3">
+                    <div className="px-2">
+                      <h1 className="text-xl font-bold">Traducción: </h1>
+                      <Select
+                        options={options}
+                        defaultValue={options[0]}
+                        onChange={(e) => eleccionIdioma(e.value)}
+                      />
+                    </div>
+                    <div className="px-2 col-span-2">
+                      <h1 className="text-xl font-bold">Filtros: </h1>
+                      <Select
+                        isMulti
+                        defaultValue={[filters[0]]}
+                        options={filters}
+                        onChange={filterPublications}
+                        className="basic-multi-select"
+                        classNamePrefix="select"
+                      />
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end">
-                <div className="py-2 px-8 ">
-                  <button
-                    className="bg-darkBlue hover:bg-celeste text-white font-bold py-2 px-4 rounded flex "
-                    onClick={() => handleMakePublicacion()}
+            </div>
+            <div className="flex justify-end">
+              <div className="py-2 px-8 ">
+                <button
+                  className="bg-darkBlue hover:bg-celeste text-white font-bold py-2 px-4 rounded flex "
+                  onClick={() => handleMakePublicacion()}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-6 h-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-                      />
-                    </svg>
-                    Publicar
-                  </button>
-                </div>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                    />
+                  </svg>
+                  Publicar
+                </button>
               </div>
-
+            </div>
+            {loading ? (
+              <div className="flex justify-center items-center h-screen">
+                <h1 className="text-2xl font-bold text-white">
+                  No hay publicaciones 
+                </h1>
+              </div>
+            ) : (
               <div className="flex-grow overflow-y-auto p-4 space-y-4 scrollbar-hide ">
                 {!hayPublicaciones ? (
                   <div className="flex justify-center items-center h-screen">
-                    <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500"></div>
+                    <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500">
+                      <h1 className="text-2xl font-bold text-white">
+                        No hay publicaciones
+                      </h1>
+                    </div>
                   </div>
                 ) : (
                   filteredPublications.map((publicacion) => {
@@ -455,8 +449,14 @@ function Home() {
                               </svg>
                             </button>
 
-                            <button className="rounded-full p-2 bg-lila hover:bg-lila/50"
-                            onClick={() => handleTranslate(publicacion._id, publicacion.description)}
+                            <button
+                              className="rounded-full p-2 bg-lila hover:bg-lila/50"
+                              onClick={() =>
+                                handleTranslate(
+                                  publicacion._id,
+                                  publicacion.description
+                                )
+                              }
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -489,138 +489,143 @@ function Home() {
                   })
                 )}
               </div>
-            </div>
-            <div className="h-screen w-4/12">
-              {showComentarios ? (
-                <div className="h-screen bg-black/50 overflow-y-auto scrollbar-hide">
-                  {/*True*/}
-                  <div className=" flex text-black items-start justify-between p-5 border-b border-solid border-gray-500 rounded-t">
-                    <h3 className=" text-2xl font-semibold text-white">
-                      Comentarios
-                    </h3>
-                    <button
-                      className="flex text-black-500 bg-yellow-500 rounded p-1 ml-auto text-dark leading-none font-semibold outline-none focus:outline-none"
-                      onClick={() => handleModalComentarios()}
-                    >Agregar
-                      <span className="h-6 w-6 text-2xl block outline-none focus:outline-none">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="w-6 h-6"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-                          />
-                        </svg>
-                      </span>
-                    </button>
+            )}
+          </div>
+          <div className="h-screen w-4/12">
+            {showComentarios ? (
+              <div className="h-screen bg-black/50 overflow-y-auto scrollbar-hide">
+                {/*True*/}
+                <div className=" flex text-black items-start justify-between p-5 border-b border-solid border-gray-500 rounded-t">
+                  <h3 className=" text-2xl font-semibold text-white">
+                    Comentarios
+                  </h3>
+                  <button
+                    className="flex text-black-500 bg-yellow-500 rounded p-1 ml-auto text-dark leading-none font-semibold outline-none focus:outline-none"
+                    onClick={() => handleModalComentarios()}
+                  >
+                    Agregar
+                    <span className="h-6 w-6 text-2xl block outline-none focus:outline-none">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                        />
+                      </svg>
+                    </span>
+                  </button>
 
-                    <button
-                      className="text-red-500 p-1 ml-auto text-dark  float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                      onClick={() => handleShowComentarios()}
-                    >
-                      <span className="h-6 w-6 text-2xl block outline-none focus:outline-none">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 22 22"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                      </span>
-                    </button>
-
-                    
-                  </div>
-                  {/*COMENTARIOS*/}
-                  {comentarios.map((comentario) => {
-                    return (
-                      <div className="flex justify-center py-1">
-                        <div className="w-full rounded overflow-hidden shadow-lg bg-white mx-2">
-                          <div className="flex items-center space-x-2 px-6 py-4">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="h-16 w-16 rounded-full"
-                                src={comentario.pahtImageUser}
-                                alt=""
-                              />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="text-xl font-medium text-gray-900">
-                                <p className="">
-                                  {comentario.nameUser +
-                                    " " +
-                                    comentario.lasNameUser}
-                                </p>
-                              </div>
-                              <p className="text-sm text-gray-500">
-                                {comentario.email}
-                              </p>
-                              <p className="text-sm text-gray-500">
-                                {formatFecha(comentario.createdAt)}
-                              </p>
-                            </div>
-                            <div className="flex-shrink-0 self-start">
-                              <button className="rounded-full p-2 bg-lila hover:bg-lila/50"
-                              onClick={() => handleTranslateComment(comentario._id, comentario.comment)}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="currentColor"
-                                  className="w-6 h-6"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802"
-                                  />
-                                </svg>
-                              </button>
-                            </div>
+                  <button
+                    className="text-red-500 p-1 ml-auto text-dark  float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    onClick={() => handleShowComentarios()}
+                  >
+                    <span className="h-6 w-6 text-2xl block outline-none focus:outline-none">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 22 22"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </span>
+                  </button>
+                </div>
+                {/*COMENTARIOS*/}
+                {comentarios.map((comentario) => {
+                  return (
+                    <div className="flex justify-center py-1">
+                      <div className="w-full rounded overflow-hidden shadow-lg bg-white mx-2">
+                        <div className="flex items-center space-x-2 px-6 py-4">
+                          <div className="flex-shrink-0">
+                            <img
+                              className="h-16 w-16 rounded-full"
+                              src={comentario.pahtImageUser}
+                              alt=""
+                            />
                           </div>
-                          <div className=" text-sm text-gray-700 p-3">
-                            <p>{comentario.comment}</p>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xl font-medium text-gray-900">
+                              <p className="">
+                                {comentario.nameUser +
+                                  " " +
+                                  comentario.lasNameUser}
+                              </p>
+                            </div>
+                            <p className="text-sm text-gray-500">
+                              {comentario.email}
+                            </p>
+                            <p className="text-sm text-gray-500">
+                              {formatFecha(comentario.createdAt)}
+                            </p>
+                          </div>
+                          <div className="flex-shrink-0 self-start">
+                            <button
+                              className="rounded-full p-2 bg-lila hover:bg-lila/50"
+                              onClick={() =>
+                                handleTranslateComment(
+                                  comentario._id,
+                                  comentario.comment
+                                )
+                              }
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="w-6 h-6"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802"
+                                />
+                              </svg>
+                            </button>
                           </div>
                         </div>
+                        <div className=" text-sm text-gray-700 p-3">
+                          <p>{comentario.comment}</p>
+                        </div>
                       </div>
-                    );
-                  })}
-                  {/*COMENTARIOS*/}
-                </div>
-              ) : (
-                <div className="h-screen">
-                  {/*False*/}
-                  <div className="flex flex-col h-full justify-center items-center bg-gradient-to-tr from-darkBlue-70 via-black/70 to-darkBlue-70 animate-gradient">
-                    <div className="text-center">
-                      <h1 className="text-3xl font-bold text-white">
-                        Selecciona una publicación para visualizar los
-                        comentarios
-                      </h1>
-                      <div className="flex justify-center">
-                        <WechatFilled className="py-7 text-white text-9xl animate-bounce" />
-                      </div>
+                    </div>
+                  );
+                })}
+                {/*COMENTARIOS*/}
+              </div>
+            ) : (
+              <div className="h-screen">
+                {/*False*/}
+                <div className="flex flex-col h-full justify-center items-center bg-gradient-to-tr from-darkBlue-70 via-black/70 to-darkBlue-70 animate-gradient">
+                  <div className="text-center">
+                    <h1 className="text-3xl font-bold text-white">
+                      Selecciona una publicación para visualizar los comentarios
+                    </h1>
+                    <div className="flex justify-center">
+                      <WechatFilled className="py-7 text-white text-9xl animate-bounce" />
                     </div>
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
-      )}
+      </div>
+
       {/* MODAL PUBLICACION */}
       {makePublicacion ? (
         <>
@@ -743,9 +748,8 @@ function Home() {
         </>
       ) : null}
 
-      {
-        makeComment ? (
-          <>
+      {makeComment ? (
+        <>
           <div className="shadow-[0_2px_15px_-3px_rgba(255,255,255.07),0_10px_20px_-2px_rgba(255,255,255,0.04)] justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ">
             <div className=" relative w-7/12 my-6 mx-auto">
               {/*content*/}
@@ -776,7 +780,10 @@ function Home() {
                 </div>
                 {/*body*/}
 
-                <form className="justify-center" onSubmit={(e) => handleAddComentarios(e)}>
+                <form
+                  className="justify-center"
+                  onSubmit={(e) => handleAddComentarios(e)}
+                >
                   <div className="relative p-6 flex-auto">
                     <div className="mt-4">
                       <label
@@ -823,8 +830,7 @@ function Home() {
           </div>
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
-        ) : null
-      }
+      ) : null}
     </div>
   );
 }
