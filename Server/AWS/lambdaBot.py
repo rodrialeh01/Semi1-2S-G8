@@ -1,4 +1,6 @@
 import json
+import boto3
+translate_client = boto3.client('translate')
 
 def lambda_handler(event, context):
     # Obtiene el código del curso desde el evento de Amazon Lex
@@ -22,6 +24,11 @@ def lambda_handler(event, context):
     elif intent == "Reingreso":
         numero_Pregunta = event['sessionState']['intent']['slots']['numeroReingreso']['value']['originalValue']
         respuesta = obtener_informacion_de_Reingreso(numero_Pregunta)
+    elif intent == "Traductor":
+        lenguaje = event['sessionState']['intent']['slots']['languageSlot']['value']['originalValue']
+        texto = event['sessionState']['intent']['slots']['textoTraducir']['value']['originalValue']
+        respuesta = obtener_traduccion(lenguaje,texto)
+    
 
 
 
@@ -390,3 +397,11 @@ def obtener_informacion_de_Reingreso(numero_Pregunta):
         return respuesta
     else:
         return "Lo siento, no se encontró información para el número de pregunta proporcionado."
+    
+def obtener_traduccion(lenguaje,texto):
+    translate_response = translate_client.translate_text(
+        Text=texto,
+        SourceLanguageCode='auto',
+        TargetLanguageCode=lenguaje 
+    )
+    return translate_response['TranslatedText']
