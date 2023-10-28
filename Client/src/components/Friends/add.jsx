@@ -1,36 +1,41 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import CardAddFriend from '../card/addFriend'
+import Service from "../../Service/Service";
+import { useAuthContext } from "../../context/AuthContext";
 import '../bot/style.css'
+
 export default function AddFriend() {
-  const [users, setUsers] = React.useState([
-    {
-      id: 1,
-      name: 'Emily Rodd',
-      email: 'userwe1@gmail.com',
-      photo: 'https://preview.redd.it/emily-rudd-v0-h5oen1oe1qjb1.jpg?auto=webp&s=d5d9eef3bd7b4a0453459a710069b10c6809c4c9'
-    },
-    {
-      id: 2,
-      name: 'Henrry Cavil',
-      email: 'user2@gmail.com',
-      photo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Henry_Cavill_%2848417913146%29_%28cropped%29.jpg/800px-Henry_Cavill_%2848417913146%29_%28cropped%29.jpg'
+  const [users, setUsers] = React.useState([])
+  const { userLog, setUserLog } = useAuthContext();
+  const [token, setToken] = useState("");
+  const [loadedToken, setLoadedToken] = useState(false);
+  
+  useEffect(() => {
+    if(!userLog){
+      navigate('/');
     }
-  ])
+    const user_data = JSON.parse(localStorage.getItem('data_user'));
+    setToken(user_data.token);
+    const timeout = setTimeout(() => {
+      setLoadedToken(true);
+    }, 1000)
+
+    return () => clearTimeout(timeout)
+  },[userLog, token, loadedToken]);
 
   useEffect(() => {
-    // add more users
-    const moreUsers = [...users]
-    for(let i = 3; i < 10; i++) {
-      const newUser = {
-        id: i,
-        name: 'Tonelito',
-        email: `user${i}@gmail.com`,
-        photo: 'https://www.soy502.com/sites/default/files/styles/escalar_image_inline/public/2023/Oct/11/tonel_pmt_guatemala.jpeg'
+    const doRequest = async () => {
+      try {
+        const response = await Service.getUsers(token);
+        if (response.data.message === "ok") {
+          setUsers(response.data.data)
+        }
+      } catch (error) {
+        console.log(error);
       }
-      moreUsers.push(newUser)
-    }
-    setUsers(moreUsers)
-  }, [])
+    };
+    doRequest();
+  }, [token]);
 
   return (
     <div className="h-screen max-h-screen w-screen bg-gradient-to-tr from-darkBlue to-azul flex flex-col">
