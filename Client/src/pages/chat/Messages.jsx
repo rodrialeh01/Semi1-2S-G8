@@ -153,7 +153,7 @@ const Messages = ({token, idAmigo, idUser}) => {
                 <form className='relative flex items-center' onSubmit={handleSubmit}>
                     <InputEmoji
                         value={text_Message}
-                        onChange={setText_Message}
+                        onChange={onChangeMessageHandler}
                         placeholder="Escribe un mensaje"
                     />
                     <div onClick={sendMessageHandler} className='ml-2'> 
