@@ -158,10 +158,40 @@ export const createChat = async (token, data) => {
     return response;
 }
 
+export const getChats = async (token, id) => {
+    const response = await instance.get(`/api/chats/${id}`,{
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    return response;
+}
+
 //Obtener los chats con los users
 export const findUsersChats = async (token, id) => {
     const response = await instance.get(`/api/chats/find/${id}`,{
         headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    return response;
+}
+
+//OBTIENE INFO DEL CHAT
+export const getChat = async (token, id1, id2) => {
+    const response = await instance.get(`/api/chats/find/${id1}/${id2}`,{
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    return response;
+}
+
+//ENVIA UN MENSAJE
+export const sendMessage = async (token, data) => {
+    const response = await instance.post('/api/messages', data,{
+        headers: {
+            'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         }
     });

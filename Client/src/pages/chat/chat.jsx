@@ -38,6 +38,7 @@ const Chat = () => {
     }, []);
 
     const showChatFriendHandler = (idFriend) => {
+        tieneChat(idFriend)
         setShowChat(true);
         console.log("El amigo seleccionadoo fue:", idFriend)
         setIdAmigo(idFriend);
@@ -58,22 +59,34 @@ const Chat = () => {
     }
 
     const tieneChat = (idFriend) => {
-        Service.getChatMessages(token, idUser)
+        Service.getChats(token, idUser)
         .then((res) => {
             console.log("response chat: ",res.data)
             if(res.data.data.length > 0){
-                if(res.data.data.members.includes(idFriend)){
-                    setHayMensaje(true);
-                    setUltimoMensaje(res.data.data[res.data.data.length - 1].text);
-                }else{
-                    setHayMensaje(false);
-                    setUltimoMensaje('Inicia la conversación 😁')
+                for(let i=0; i<res.data.data.length; i++){
+                    if(res.data.data[i].members.includes(idFriend)){
+                        Service.getChat(token, idUser, idFriend)
+                        .then((res2) => {
+                            console.log("RES2:", res2.data.data[0]._id)
+                            Service.getChatMessages(token,res2.data.data[0]._id)
+                            .then((res3) => {
+                                console.log("response RES3: ",res3.data)
+                                if(res3.data.data.length > 0){
+                                    setHayMensaje(true);
+                                    setUltimoMensaje(res3.data.data[res3.data.data.length - 1].text);
+                                }
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
+                        break;
+                    }
                 }
-            }else{
-                setHayMensaje(false);
-                setUltimoMensaje('Inicia la conversación 😁')
-            }
-            
+            }            
         })
     }
 
