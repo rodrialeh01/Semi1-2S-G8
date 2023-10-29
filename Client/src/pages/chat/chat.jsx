@@ -61,19 +61,15 @@ const Chat = () => {
     const tieneChat = (idFriend) => {
         Service.getChats(token, idUser)
         .then((res) => {
-            console.log("response chat: ",res.data)
             if(res.data.data.length > 0){
                 for(let i=0; i<res.data.data.length; i++){
                     if(res.data.data[i].members.includes(idFriend)){
                         Service.getChat(token, idUser, idFriend)
                         .then((res2) => {
-                            console.log("RES2:", res2.data.data[0]._id)
                             Service.getChatMessages(token,res2.data.data[0]._id)
                             .then((res3) => {
-                                console.log("response RES3: ",res3.data)
                                 if(res3.data.data.length > 0){
                                     setHayMensaje(true);
-                                    setUltimoMensaje(res3.data.data[res3.data.data.length - 1].text);
                                 }
                             })
                             .catch((err) => {
@@ -125,7 +121,7 @@ const Chat = () => {
                                     <div>
                                         <h3 className='text-gray-300 font-semibold'>{amigo.name} <span className="text-gray-500 font-normal">00:00</span></h3>
                                         <p className='text-gray-400 overflow-hidden whitespace-nowrap overflow-ellipsis max-w-[12rem]'>
-                                            {ultimoMensaje}
+                                            {"Chatea conmigo!"}
                                         </p>
                                     </div>
                                 </div>

@@ -109,7 +109,8 @@ const Messages = ({token, idAmigo, idUser}) => {
         }
     }
     const onChangeMessageHandler = (e) => {
-        setText_Message(e.target.value);
+        console.log(e)
+        setText_Message(e);
     }
     
     const sendMessageHandler = () => {
