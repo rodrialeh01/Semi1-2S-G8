@@ -62,22 +62,27 @@ function Solicitudes() {
       const response = await Service.acceptRequest(id, token);
       console.log(response)
       if (response.data.message === "Request accepted") {
-        toast.success('Solicitud aceptada', {
-          position: "top-right",
-          autoClose: 4000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
         setResponse("Friend")
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  const rejectFriendRequest = async (e, id) => {
+    try {
+      e.preventDefault();
+      console.log(id);
+      const response = await Service.rejectRequest(id, token);
+      console.log(response)
+      if (response.data.message === "Request rejected") {
+        setResponse("Not Friend")
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
 
   return (
@@ -123,7 +128,9 @@ function Solicitudes() {
                     <UserAddOutlined />
                   </button>
 
-                  <button className="bg-red-500 hover:bg-red-700  text-white font-bold py-2 px-4 rounded-full  mx-1">
+                  <button 
+                  onClick={(e) => rejectFriendRequest(e, solicitud._id)}
+                  className="bg-red-500 hover:bg-red-700  text-white font-bold py-2 px-4 rounded-full  mx-1">
                     Rechazar
                     <UserDeleteOutlined style={{ fontSize: "16px" }} />
                   </button>

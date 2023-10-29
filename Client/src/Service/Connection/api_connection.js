@@ -116,6 +116,16 @@ export const acceptRequest = async (id, token) => {
     return response;
 }
 
+export const rejectRequest = async (id, token) => {
+    const response = await instance.post(`/decline/request/friend/${id}`, null, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        }
+    });
+    return response;
+}
+
+
 export const createRequestFriend = async (id, token) => {
     const response = await instance.post(`/create/request/friend/${id}`, null, {
         headers: {
