@@ -28,7 +28,8 @@ export default function AddFriend() {
       try {
         const response = await Service.getUsers(token);
         if (response.data.message === "ok") {
-          setUsers(response.data.data)
+          const userList = response.data.data.filter((user) => !user.isFriend);
+          setUsers(userList)
         }
       } catch (error) {
         console.log(error);
