@@ -1,0 +1,22 @@
+version: '3'
+services:
+  node:
+    image: daniel499/semisocial_node:1.0.0
+    container_name: node
+    ports:
+      - "4000:4000"
+    environment:
+      DB_HOST: mongodb
+      DB_PORT: 27017
+      DATABASE: semiSocial
+      DB_USER: root
+      DB_PASSWORD: root
+      API_PORT: 4000
+      NAME_BUCKET: semi1proyecto-g8
+      REGION_BUCKET: us-east-1
+      ACCESS_ID: AKIAT5SZ4UEJ7R5Z3E77
+      ACCESS_KEY: 6wGRPQLd+oaOV/+zzca3aVICtbe/hrI19yKUc7uB
+      SECRET_CLIENT: 13oa901mqoecbc7gldbb2cp5dcnshf6m8t0gn08o9cvm9tvputdb
+      USER_POOL_ID: us-east-1_lBs5qL4Fc
+      CLIENT_ID: 29eh74r8fek3j9sg2adusuetji
+      REGION_REKOGNITION: us-east-1
