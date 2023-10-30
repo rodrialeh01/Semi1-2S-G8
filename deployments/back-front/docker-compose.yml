@@ -20,3 +20,10 @@ services:
       USER_POOL_ID: us-east-1_lBs5qL4Fc
       CLIENT_ID: 29eh74r8fek3j9sg2adusuetji
       REGION_REKOGNITION: us-east-1
+  front:
+    image: andreacabrera/semisocialfront
+    container_name: front
+    ports:
+      - "5173:5173"
+    environment:
+      API_URL: http://3.89.223.156:4000

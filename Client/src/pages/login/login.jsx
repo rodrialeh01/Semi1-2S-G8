@@ -5,7 +5,7 @@ import { useAuthContext } from '../../context/AuthContext';
 import { Encriptar, validarCorreo } from '../../utils/main';
 
 
-import './Login.css';
+import './login.css';
 
 function Login() {
   const [email_user, setEmail_user] = useState('');
