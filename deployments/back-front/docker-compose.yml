@@ -26,4 +26,4 @@ services:
     ports:
       - "5173:5173"
     environment:
-      API_URL: http://3.89.223.156:4000
+      API_URL: http://52.23.170.186
