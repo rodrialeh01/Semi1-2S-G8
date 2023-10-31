@@ -38,16 +38,17 @@ const Chat = () => {
     }, []);
 
     const showChatFriendHandler = (idFriend) => {
-        tieneChat(idFriend)
+        let hayM = tieneChat(idFriend);
         setShowChat(true);
-        console.log("El amigo seleccionadoo fue:", idFriend)
+        console.log("----------------------------------------------------", idFriend)
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>xxxxxxxxxxxxx El amigo seleccionadoo fue:", idFriend)
         setIdAmigo(idFriend);
         console.log(token)
         const bodysend = {
             firstId: idUser,
             secondId: idFriend
         }
-        if(!hayMensaje){
+        if(!hayM){
             Service.createChat(token, bodysend)
             .then((res) => {
                 console.log("response chat: ",res.data)
@@ -61,6 +62,7 @@ const Chat = () => {
     const tieneChat = (idFriend) => {
         Service.getChats(token, idUser)
         .then((res) => {
+            console.log("response11111111111111111111111111111111111111111111111 chat: ",res.data)
             if(res.data.data.length > 0){
                 for(let i=0; i<res.data.data.length; i++){
                     if(res.data.data[i].members.includes(idFriend)){
@@ -68,21 +70,23 @@ const Chat = () => {
                         .then((res2) => {
                             Service.getChatMessages(token,res2.data.data[0]._id)
                             .then((res3) => {
+                                console.log("REEEEEEEEEES3:",res3)
                                 if(res3.data.data.length > 0){
-                                    setHayMensaje(true);
+                                    return true;
                                 }
                             })
                             .catch((err) => {
-                                console.log(err)
+                                return false;
                             })
                         })
                         .catch((err) => {
-                            console.log(err)
+                            return false;
                         })
                         break;
                     }
                 }
-            }            
+            }
+            return false;           
         })
     }
 

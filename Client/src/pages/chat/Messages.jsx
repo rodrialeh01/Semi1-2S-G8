@@ -14,9 +14,15 @@ const Messages = ({token, idAmigo, idUser}) => {
     useEffect(() => {
         const divchat = document.getElementById('divchat');
         divchat.scrollTop = divchat.scrollHeight;
-
+        console.log("PARAM AMIGO: ", idAmigo)
         Service.getChat(token, idUser, idAmigo)
         .then((res) => {
+            console.log("LO QUE VIENE DE PARAMETROOOOOOOOOOOOOOOOOOOOOOOOOOO", {
+                token: token,
+                idUser: idUser,
+                idAmigo: idAmigo
+            })
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ESTO QUIERO VER:  ",res.data.data[0])
             setIdChat(res.data.data[0]._id);
         })
         .catch((err) => {
@@ -124,6 +130,7 @@ const Messages = ({token, idAmigo, idUser}) => {
             .then((res) => {
                 console.log(res.data)
                 setText_Message('');
+                window.location.reload();
             })
             .catch((err) => {
                 console.log(err)
