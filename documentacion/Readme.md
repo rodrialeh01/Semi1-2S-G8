@@ -6,7 +6,6 @@
 
 ## INDICE
 
-- [👥 SemiSocial](#-semisocial)
 - [Manual Técnico](#manual-técnico)
   - [INDICE](#indice)
   - [Objetivos](#objetivos)
@@ -29,23 +28,29 @@
     - [Amazon API Gateway](#amazon-api-gateway)
     - [Amazon Lambda](#amazon-lambda)
     - [IAM](#iam)
+      - [Usuarios](#usuarios)
+      - [Grupos de Usuarios](#grupos-de-usuarios)
+      - [Políticas creadas](#políticas-creadas)
   - [Conclusiones](#conclusiones)
 
 ## Objetivos
 
 ### Objetivo General
 
+Desarrollar un aplicación de tipo red social que permita a los usuarios compartir publicaciones, interactuar con otros usuarios y poder traducir textos a diferentes idiomas, además de que puedan usar la inteligencia artificial con bots para interactuar con el y saber acerca de los cursos de la facultad de ingenieria, contando con ello la aplicación desplegada en AWS para que cualquier usuario pueda acceder a ella.
+
 ### Objetivos Específicos
  1. Estructurar eficientemente el proyecto.
  2. Implementar servicios y APIs de AWS
  3. Crear una interfaz de usuario amigable y atractiva, fácil de utilizar proporioconando una buena experiencia al usuario.
 4. Implementar un sistema de autenticación y registro de usuarios haciendo uso de Amazon Cognito.
+5. Utilizar la tecnología de inteligencia artificial de los servicios de AWS para poder hacer interacción con los usuarios desde el reconocimiento facial, traducción de textos y bots. 
 
 ## Arquitectura del Proyecto
 
 ![Arquitectura](./images/arquitectura.png)
 
-
+Nuestra arquitectura esta conformada en donde existe un cliente que serian los usuarios, donde se le mostrara una interfaz de react levantada en EC2 con docker que tiene conexion con una api en NodeJS que esta levantada en la misma EC2 con docker ambos en docker compose, esta api tiene conexion con una base de datos en MongoDB que esta levantada en una distinta EC2 con docker. Ademas se utilizo servicios de AWS como S3, Rekognition, Translate, API Gateway, Lambda, Lex, Cognito e IAM que se conectaron con el servidor en NodeJS.
 
 ## Estructura del Proyecto
 
@@ -229,6 +234,88 @@ Amazon Lambda ayuda a los desarrolladores a construir aplicaciones más rápidam
 
 ### IAM
 
+<div align="center"><img src="https://logowiki.net/uploads/logo/a/aws-iam.svg" width="80"/></div>
+
+Para poder realizar la conexión entre los servicios de AWS se utilizó IAM, en donde se crearon distintos roles para poder acceder a los distintos servicios. Asi mismo tambien se crearon distintos usuarios para poder acceder a los distintos servicios dependiendo del rol que desempeñaran en el desarrollo. A si mismo a cada desarrollador se le asigno un usuario con un rol especifico para poder acceder a los servicios que necesitaban para el desarrollo.
+
+### Usuarios
+
+Se crearon los siguientes usuarios con los números de carnet de los desarrolladores:
+
+- `201900042`
+- `201901772`
+- `202004745`
+- `202010918`
+- `201901121`
+
+![Usuarios](./images/users.png)
+
+### Grupos de Usuarios
+
+Se crearon los siguientes grupos de usuarios:
+
+![grupos](./images/grupos.png)
+
+- `Administrador`: Los usuarios que tengan acceso a este grupo contarán con el acceso a todos los servicios de AWS, asi mismo tambien tienen control a todos los servicios de AWS.
+
+    Cuenta con los siguientes permisos:
+    - AdministratorAccess
+
+    ![admin](./images/adminperm.png)
+
+    Los usuarios que cuentan con este permiso son los siguientes:
+    - `201900042`
+
+    ![usuarios-administrador](./images/admin.png)
+
+- `Backend-devs`: Los usuarios que tengan acceso a este grupo contarán con el acceso a los servicios de EC2, IAM, Cógnito, S3, Lambda, Api Gateway, Translate, Rekognition.
+
+    Cuenta con los siguientes permisos:
+    - AmazonEC2FullAccess
+    - AmazonCognitoFullAccess
+    - AmazonS3FullAccess
+    - IAMFullAccess
+    - AmazonAPIGatewayAdministrator
+    - AmazonRekognitionFullAccess
+    - AmazonTranslateFullAccess
+    - AWSLambda_FullAccess
+
+    ![back](./images/backperm.png)
+
+    Los usuarios que cuentan con este permiso son los siguientes:
+    - `201901772`
+    - `202004745`
+
+    ![usuarios-backend-devs](./images/back.png)
+
+- `Frontend-devs`: Los usuarios que tengan acceso a este grupo contarán con el acceso a los servicios de EC2, S3 E IAM.
+
+    Cuenta con los siguientes permisos:
+    - AmazonEC2FullAccess
+    - IAMFullAccess
+
+    ![front](./images/frontperm.png)
+
+    Los usuarios que cuentan con este permiso son los siguientes:
+    - `201900042`
+    - `202010918`
+    - `201901121`
+
+    ![usuarios-frontend-devs](./images/front.png)
+
+### Políticas creadas
+
+Se crearon las siguientes políticas:
+
+- `acceso-pc-s3`: Para tener el acceso a acceder y manipular S3.
+- `api-gateway-full-access`: Para tener el control de api-gateway.
+- `AWSLambdaBasicExecutionRole-53496c6d-7a7f-4d2a-8be2-533bf51e5d3b `: Para poder escribir en Lambda.
+- `translate-full-access`: Para tener el control de translate.
+- `vpc-full-access`: Para tener el control de vpc.
+
+![politicas](./images/politicas.png)
+
+
 ## Conclusiones
 1. Con una estructuración del proyecto de manera eficiente, se logró tener un mejor control de los archivos y una mejor organización de los mismos. Esto permitió que el desarrollo del proyecto fuera más rapido por parte de los integrantes y que se pudiera tener un mejor control de los cambios realizados, dando resultado a la facilitación en navegación y edición del proyecto, así como también a la reducción, prevención y corrección de errores que surgieron durante el desarrollo de este.
 
@@ -237,3 +324,5 @@ Amazon Lambda ayuda a los desarrolladores a construir aplicaciones más rápidam
 3. El diseño de la interfaz se centró en la estética y la facilidad de uso, lo que permitió que los usuarios pudieran utilizar la aplicación de manera intuitiva y sin complicaciones. Además, se utilizó una paleta de colores que permitiera una mejor visualización de la aplicación y que fuera agradable a la vista del usuario.
 
 4. Es importante implementar un sistema de autenticación y registro de usuarios, ya que esto permite que los usuarios puedan acceder a la aplicación de manera segura y que sus datos estén protegidos. Además, esto permite que los usuarios puedan registrarse en la aplicación y así poder utilizarla.
+
+5. El uso de las herramientas de la tecnología de inteligencia artificial ayuda a que comencemos a adaptar los sistemas o proyectos en base a ello y que se pueda tener una mejor experiencia de usuario, ya que esto permite que los usuarios puedan interactuar con la aplicación de una manera más sencilla, automatizada y que puedan tener una mejor experiencia de usuario.
