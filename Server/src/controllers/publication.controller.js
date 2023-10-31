@@ -58,9 +58,8 @@ export const getPublications = async(req, res) => {
     
         const allPublications = [...publications, ...publicationsFriends];
     
-        allPublications.sort((a, b) => {
-            return new Date(b.date) - new Date(a.date);
-        });
+        // ordenar las publicaciones por fecha de creacion la mas reciente primero
+        allPublications.sort((a, b) => b.createdAt - a.createdAt);
 
         const labels = new Set();
         allPublications.forEach(publication => {
