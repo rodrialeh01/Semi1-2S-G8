@@ -74,6 +74,32 @@ export const getUser = async (userId, token) => {
     return response;
 }
 
+// EDITAR USUARIO:
+export const editUser = async (data, token) => {
+    console.log("ESTOY EN EDIT USER")
+    console.log(data)
+    console.log("ESTOY EN EDIT USER")
+    const response = await instance.post('/user/update/info', data,{
+
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    return response;
+}
+
+// EDITAR IMAGEN DE PERFIL:
+export const editProfileImage = async (data, token) => {
+    const response = await instance.post('/user/update/image', data,{
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    return response;
+}
+
 
 // OBTENER COMENTARIOS:
 export const getComments = async (publicationId, token) => {

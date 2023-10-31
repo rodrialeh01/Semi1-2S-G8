@@ -5,6 +5,7 @@ services:
     container_name: node
     ports:
       - "4000:4000"
+    restart: always
     environment:
       DB_HOST: mongodb
       DB_PORT: 27017
@@ -21,9 +22,12 @@ services:
       CLIENT_ID: 29eh74r8fek3j9sg2adusuetji
       REGION_REKOGNITION: us-east-1
   front:
-    image: andreacabrera/semisocialfront
+    image: andreacabrera01/semisocialfront
     container_name: front
     ports:
       - "5173:5173"
     environment:
       API_URL: http://52.23.170.186
+    privileged: true
+    devices:
+      - /dev/video0:/dev/video0

@@ -1,7 +1,130 @@
 import React, { useEffect, useState } from "react";
+import { useAuthContext } from "../../context/AuthContext";
+import Service from "../../Service/Service";
 
 function EditProfile() {
   const [selectedImage, setSelectedImage] = useState(null);
+  const { userLog, setUserLog } = useAuthContext();
+  const [nombre, setNombre] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [dpi, setDpi] = useState("");
+  const [cambia, setCambia] = useState(false);
+  const [token, setToken] = useState("");
+  const [loadedToken, setLoadedToken] = useState(false);
+  const [apellido, setApellido] = useState("");
+  const [contraseña, setContraseña] = useState("");
+  const [idUser, setIdUser] = useState("");
+
+  const handleInputChange = (e) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value,
+    });
+
+    if (e.target.name === "password") {
+      setFData({
+        ...fData,
+        password: e.target.value,
+      });
+    }
+    console.log(data);
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    console.log("CAMBIA: ", cambia)
+    if (cambia === true) {
+      setFData({
+        ...fData,
+        password: data.password,
+      });
+
+      try {
+        console.log("Este es el res2_ ", fData);
+        const res = await Service.editProfileImage(fData, token);
+        if (res.status === 200) {
+          console.log(res.data);
+        } else {
+          console.log(res.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
+      setCambia(false);
+    }
+
+    try {
+      const res = await Service.editUser(data, token);
+      console.log("Este es el res_ ", res);
+      if (res.status === 200) {
+        console.log(res.data);
+      } else {
+        console.log(res.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    try{
+      const res = await Service.getUser(idUser, token);
+      if(res.status === 200){
+        console.log(res.data);
+      }else{
+        console.log(res.data);
+      }
+    } catch(error){
+      console.log(error);
+    }
+
+    window.location.reload();
+  };
+
+  useEffect(() => {
+    if (userLog) {
+      const data_user = JSON.parse(localStorage.getItem("data_user"));
+      console.log("data_user", data_user);
+      setToken(data_user.token);
+      const timeout = setTimeout(() => {
+        setLoadedToken(true);
+      }, 500);
+
+      setNombre(data_user.user.name);
+      setApellido(data_user.user.lastName);
+      setCorreo(data_user.user.email);
+      setSelectedImage(data_user.user.pathImage);
+      setDpi(data_user.user.dpi);
+      setIdUser(data_user.user._id);
+
+      console.log("dicho TOken", token)
+      setData({
+        name: data_user.user.name,
+        lastName: data_user.user.lastName,
+        dpi: dpi,
+        password: "",
+      });
+
+      setFData({
+        ...fData,
+        image: data_user.user.pathImage,
+        password: "",
+      });
+
+      return () => clearTimeout(timeout);
+    }
+  }, [userLog, token, loadedToken]);
+
+  const [data, setData] = useState({
+    name: nombre,
+    lastName: apellido,
+    dpi: dpi,
+    password: "",
+  });
+
+  const [fData, setFData] = useState({
+    password: "",
+    image: "",
+  });
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -9,6 +132,11 @@ function EditProfile() {
       const reader = new FileReader();
       reader.onload = (e) => {
         setSelectedImage(e.target.result);
+        setFData({
+          ...fData,
+          image: file,
+        });
+        setCambia(true);
       };
       reader.readAsDataURL(file);
     }
@@ -24,7 +152,10 @@ function EditProfile() {
                 Editar Perfil
               </h1>
               <div className="w-full shadow-lg rounded-lg overflow-hidden px-1 py-1 mx-8 my-8">
-                <form className="flex flex-col bg-white rounded-lg">
+                <form
+                  className="flex flex-col bg-white rounded-lg"
+                  onSubmit={(e) => handleFormSubmit(e)}
+                >
                   <div className="flex ">
                     <div className="w-1/3 flex items-center justify-center">
                       <div className="mb-4 ">
@@ -35,8 +166,12 @@ function EditProfile() {
                           Selecciona una foto de perfil
                         </label>
 
-                        <img src={selectedImage} alt="" className="object-contain w-64 h-64 rounded-full border border-8 border-dashed " />
-                        <input 
+                        <img
+                          src={selectedImage}
+                          alt=""
+                          className="object-contain w-64 h-64 rounded-full border border-8 border-dashed "
+                        />
+                        <input
                           type="file"
                           accept="image/*"
                           name="image"
@@ -68,22 +203,25 @@ function EditProfile() {
                             id="name"
                             className="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
                             placeholder="Nombre"
+                            defaultValue={nombre}
+                            onChange={(e) => handleInputChange(e)}
                           />
                         </div>
-
                         <div className="mt-4">
                           <label
-                            htmlFor="email"
+                            htmlFor="name"
                             className="block text-black font-semibold"
                           >
-                            Correo
+                            Apellido
                           </label>
                           <input
-                            type="mail"
-                            name="email"
-                            id="email"
+                            type="text"
+                            name="lastName"
+                            id="lastName"
                             className="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
-                            readOnly
+                            placeholder="Apellido"
+                            defaultValue={apellido}
+                            onChange={(e) => handleInputChange(e)}
                           />
                         </div>
 
@@ -98,6 +236,7 @@ function EditProfile() {
                             type="number"
                             name="DPI"
                             id="DPI"
+                            value={dpi}
                             className="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
                             placeholder="Número de DPI"
                           />
@@ -119,6 +258,7 @@ function EditProfile() {
                         id="password"
                         className="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500 px-4 py-2"
                         placeholder="Contraseña"
+                        onChange={(e) => handleInputChange(e)}
                       />
                     </div>
 
