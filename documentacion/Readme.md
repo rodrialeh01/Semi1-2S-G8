@@ -216,6 +216,24 @@ Se tomo como usuario el correo electronico y la contraseña, y se utilizo el met
 
 ### Amazon EC2
 
+### EC2
+
+<div align="center"><img src="https://www.logicata.com/wp-content/uploads/2020/08/Amazon-EC2@4x-e1593195270371.png" width="100"/></div>
+
+Amazon Elastic Compute Cloud (Amazon EC2) fue utilizado en nuestro proyecto para poder alojar los servidores en donde se alojan 2 dockers compose donde en una instancia se aloja el frontend y el backend y en la otra instancia se aloja la base de datos.
+
+#### Instancias
+
+- `front-back-semisocial`: En esta instancis aloja el docker compose de las imagenes del frontend y backend teniendo habilitados los puertos 5173 y 4000 `us-east-1a`.
+
+- `base-datos-semisocial`: En esta instancia se aloja el docker compose que tiene la imagen de mongodb teniendo habilitado el puerto 27017 `us-east-1a`.
+
+![ec2](./images/ec2.png)
+
+Se crearon 2 Security Groups para poder tener acceso a los puertos de las instancias.
+
+![security](./images/sg.png)
+
 ### Amazon API Gateway
 
 <div align="center"><img src="images/api_gateway.jpeg" width="200" height="200"/></div>
