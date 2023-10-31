@@ -9,14 +9,18 @@
 - [👥 SemiSocial](#-semisocial)
 - [Manual Técnico](#manual-técnico)
   - [INDICE](#indice)
-  - [Introducción](#introducción)
   - [Objetivos](#objetivos)
     - [Objetivo General](#objetivo-general)
     - [Objetivos Específicos](#objetivos-específicos)
   - [Arquitectura del Proyecto](#arquitectura-del-proyecto)
   - [Estructura del Proyecto](#estructura-del-proyecto)
+      - [NodeJS](#nodejs)
+    - [React](#react)
+    - [MongoDB](#mongodb)
+    - [Docker](#docker)
   - [Descripción de los Servicios de AWS](#descripción-de-los-servicios-de-aws)
-    - [Amazon S3](#amazon-s3)
+    - [S3](#s3)
+      - [Buckets](#buckets)
     - [Amazon Rekognition](#amazon-rekognition)
     - [Amazon Translate](#amazon-translate)
     - [Amazon Lex](#amazon-lex)
@@ -35,6 +39,7 @@
  1. Estructurar eficientemente el proyecto.
  2. Implementar servicios y APIs de AWS
  3. Crear una interfaz de usuario amigable y atractiva, fácil de utilizar proporioconando una buena experiencia al usuario.
+4. Implementar un sistema de autenticación y registro de usuarios haciendo uso de Amazon Cognito.
 
 ## Arquitectura del Proyecto
 
@@ -84,8 +89,27 @@ npm run dev
 
 El proyecto se estructuró de tal manera para su fácil configuración, edición y que a su vez se pudiera tener eficiencia en su desarrollo. Cabe mencionar que se utilizó **Tailwind CSS**, framework de código abierto de CSS, para la creación de los componentes y el diseño de la aplicación.
 
+### MongoDB
 
+<div align="center"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/MongoDB_Logo.svg/1200px-MongoDB_Logo.svg.png" width="600" height="150"/></div>
 
+MongoDB es una base de datos NoSQL, la cual es una base de datos que no utiliza el modelo relacional de las bases de datos SQL, sino que utiliza un modelo de datos optimizado para aplicaciones modernas, el cual se basa en colecciones y documentos.
+
+Se utlizó para almacenar los datos de los usuarios, publicaciones, comentarios, entre otros.
+
+Para poder conectarse a la base de datos se utilizó la librería de Mongoose, la cual es una librería de NodeJS que permite la conexión con MongoDB.
+
+Las colecciones para este proyecto son las siguientes:
+
+- `users`: Esta colección se utiliza para almacenar los datos de los usuarios, como por ejemplo: nombre, apellido, correo electrónico, contraseña, fecha de nacimiento, entre otros.
+
+- `publications`: Esta colección se utiliza para almacenar los datos de las publicaciones, como por ejemplo: título, descripción, imagen, fecha de creación, entre otros.
+
+- `comments`: Esta colección se utiliza para almacenar los datos de los comentarios, como por ejemplo: contenido, fecha de creación, entre otros.
+
+- `messages`: Esta colección se utiliza para almacenar los datos de los mensajes, como por ejemplo: contenido, fecha de creación, entre otros.
+
+- `chats`: Esta colección se utiliza para almacenar los datos de los chats, como por ejemplo: fecha de creación, entre otros.
 
 
 ### Docker
@@ -111,7 +135,22 @@ docker compose down
 ## Descripción de los Servicios de AWS
 <div align="center"><img src="https://5.imimg.com/data5/SELLER/Default/2021/8/NP/YN/DN/3775979/aws-logo.png" width="200"/></div>
 
-### Amazon S3
+### S3
+<div align="center"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Amazon-S3-Logo.svg/1712px-Amazon-S3-Logo.svg.png" width="100"/></div>
+
+S3 es un servicio de almacenamiento de objetos que ofrece escalabilidad, disponibilidad de datos, seguridad y rendimiento. Este servicio se utiliza para almacenar y proteger cualquier cantidad de datos para una amplia variedad de casos de uso, como sitios web, aplicaciones móviles, copias de seguridad y restauraciones, archivado, aplicaciones empresariales, dispositivos IoT y análisis de big data.
+
+#### Buckets
+
+- `semi1proyecto-g8`: Este bucket se utilizo para poder almacenar las diferentes imagenes que se suben a la aplicacion, como por ejemplo: imagenes de perfil, imagenes de publicaciones, imagenes de comentarios, etc.
+
+  Este bucket se encuentra en la zona de disponibilidad `us-east-1a` y se encuentra en la región `us-east-1`.
+
+  <div align="center"><img src="images/bucket.png" width="680"/></div>
+
+  En su interior tiene una carpeta llamada `images` en donde se encuentran las imagenes que se suben a la aplicación.
+
+  <div align="center"><img src="images/carpeta.png" width="680"/></div>
 
 ### Amazon Rekognition
 <div align="center"><img src="images/rekog.png" width="166" height="200"/></div>
@@ -157,6 +196,18 @@ Amazon Lex es un servicio para crear interfaces de conversación en cualquier ap
 En el caso de Semisocial, se utilizó para crear un bot que permita a los usuarios interactuar con la aplicación, con el fin de poder consultar información de la aplicación, como por ejemplo: información de la red de cursos de la Facultad de Ingeniería de la Universidad de San Carlos de Guatemala, información de los horarios de los cursos de la carrera de Ingeniería en Sistemas, preguntas y frecuentes y ayuda para traducir textos.
 
 ### Amazon Cógnito
+<div align="center"><img src="https://eu.rsystems.com/wp-content/uploads/2022/06/AWS-Cognito.png" width="200" height="200"/></div>
+
+Amazon Cognito es un servicio que proporciona un marco de autenticación, autorización y gestión de usuarios para aplicaciones web y móviles. Puede integrar fácilmente Cognito con cualquier aplicación escrita en cualquier lenguaje de programación, como Java, JavaScript, Python, etc.
+
+En el caso de Semisocial, se utilizó para dos casos:
+<br>
+
+ - **Autenticación:** Se implementó el servicio en el login para la autenticación de los usuarios, con el fin de poder validar su identidad y así poder acceder a la aplicación. Gracias a que este provee un token de acceso, se puede utilizar para la autenticación de los usuarios en la aplicación.
+
+ - **Registro de usuarios:** Se implementó el servicio en el registro de usuarios, con el fin de poder registrar a los usuarios en la aplicación. Aca se registraron los usuarios con su nombre, apellido, dpi, correo electronico y contraseña.
+
+Se tomo como usuario el correo electronico y la contraseña, y se utilizo el metodo de autenticacion de usuario y contraseña.
 
 ### Amazon EC2
 
@@ -184,3 +235,5 @@ Amazon Lambda ayuda a los desarrolladores a construir aplicaciones más rápidam
 2. Al trabajar con servicios de AWS se pueden observar las ventajes que tienen al implementarlas en el proyecto, asi como la reduccion de carga operativa (Lambda), la escalabilidad automatica para manejar el trafico y la demanda (API Gateway), gestion de identidad y acceso (Cognito), reconocimiento de imagenes (Rekognition), entre otros. Estas ventajas conducen a una mayor eficiencia, entrega rapida, reduccion de costos operativos y poder responder a los cambios en cualquier momento.
 
 3. El diseño de la interfaz se centró en la estética y la facilidad de uso, lo que permitió que los usuarios pudieran utilizar la aplicación de manera intuitiva y sin complicaciones. Además, se utilizó una paleta de colores que permitiera una mejor visualización de la aplicación y que fuera agradable a la vista del usuario.
+
+4. Es importante implementar un sistema de autenticación y registro de usuarios, ya que esto permite que los usuarios puedan acceder a la aplicación de manera segura y que sus datos estén protegidos. Además, esto permite que los usuarios puedan registrarse en la aplicación y así poder utilizarla.
