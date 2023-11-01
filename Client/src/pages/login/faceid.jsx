@@ -105,6 +105,22 @@ function FaceId() {
           setUserC(response.data.data.user);
           navigate('/user/home');
         })
+        .catch(error => {
+          console.log(error)
+          setTimeout(() => {
+            toast('Hubo un error!, intentalo de nuevo',
+              {
+                icon: '❌',
+                style: {
+                  borderRadius: '10px',
+                  background: '#333',
+                  color: '#fff',
+                },
+              }
+            );
+            navigate('/');
+          }, 2000);
+        })
         
       }catch(error){
         setTimeout(() => {

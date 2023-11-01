@@ -189,7 +189,7 @@ function Home() {
 
     console.log(data);
     try {
-      const res = await Service.translate(data);
+      const res = await Service.translate(data,token);
       if (res.data.message === "ok") {
         console.log("Traducción realizada correctamente");
         console.log(res.data.data.textTranslate);

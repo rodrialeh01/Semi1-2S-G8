@@ -38,11 +38,20 @@ function EditProfile() {
         ...fData,
         password: data.password,
       });
-
+      
       try {
         console.log("Este es el res2_ ", fData);
         const res = await Service.editProfileImage(fData, token);
         if (res.status === 200) {
+          let data_user = JSON.parse(localStorage.getItem("data_user"));
+          let id = data_user.user._id;
+          Service.getUser(id, token)
+          .then((res) => {
+            let foto = res.data.data.pathImage
+            data_user.user.pathImage = foto
+            localStorage.setItem("data_user", JSON.stringify(data_user));
+          })
+
           console.log(res.data);
         } else {
           console.log(res.data);
@@ -59,21 +68,16 @@ function EditProfile() {
       console.log("Este es el res_ ", res);
       if (res.status === 200) {
         console.log(res.data);
+        let data_user = JSON.parse(localStorage.getItem("data_user"));
+          let id = data_user.user._id;
+          data_user.user.name = data.name
+          data_user.user.lastName = data.lastName
+          data_user.user.dpi = data.dpi
+          localStorage.setItem("data_user", JSON.stringify(data_user));
       } else {
         console.log(res.data);
       }
     } catch (error) {
-      console.log(error);
-    }
-
-    try{
-      const res = await Service.getUser(idUser, token);
-      if(res.status === 200){
-        console.log(res.data);
-      }else{
-        console.log(res.data);
-      }
-    } catch(error){
       console.log(error);
     }
 

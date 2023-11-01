@@ -22,12 +22,13 @@ services:
       CLIENT_ID: 29eh74r8fek3j9sg2adusuetji
       REGION_REKOGNITION: us-east-1
   front:
-    image: andreacabrera01/semisocialfront
+    image: andreacabrera01/semisocialfront:3.0.0
     container_name: front
     ports:
       - "5173:5173"
     environment:
       API_URL: http://52.23.170.186
     privileged: true
+    restart: always
     devices:
       - /dev/video0:/dev/video0

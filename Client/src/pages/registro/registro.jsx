@@ -182,6 +182,19 @@ function Registro(){
           );
         }
 			})
+      .catch(error => {
+        console.log(error)
+        toast('Hubo un error!, intentalo de nuevo',
+          {
+            icon: '❌',
+            style: {
+              borderRadius: '10px',
+              background: '#333',
+              color: '#fff',
+            },
+          }
+        );
+      });  
 		}catch(error){
 			toast('Hubo un error!, intentalo de nuevo',
         {
